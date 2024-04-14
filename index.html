@@ -8,7 +8,9 @@
 </head>
 <body>
     <h1>Cumbiamón 💃</h1>
-    <section id="seleccionarCumbiamon">
+    <h2>Colombia, tierra de ritmo y color</h2>
+
+    <section id="selectCumbiamon">
         <h2>Selecciona tu Cumbiamon</h2>
 
         <label for="marimondex">Marimondex</label>
@@ -17,16 +19,22 @@
         <label for="chocoramon">Chocoramon</label>
         <input type="radio" name="personaje" id="chocoramon" />
 
-        <label for="Palenqueta">Palenqueta</label>
-        <input type="radio" name="personaje" id="Palenqueta" />
+        <label for="palenqueta">Palenqueta</label>
+        <input type="radio" name="personaje" id="palenqueta" />
 
         <label for="paramon">Paramón</label>
         <input type="radio" name="personaje" id="paramon" />
 
         <label for="doradon">Doradón</label>
         <input type="radio" name="personaje" id="doradon" />
-        
 
+        <button id="characterButton">Seleccionar personaje</button>
+    </section>
+    <section id="selectAttack">
+        <h2>Selecciona tu Ataque</h2>
+
+        <p>Tu <span id="playerCharacter"></span>tiene <span id="playerLives"></span> vidas</p>
+        <p>El <span id="enemyCharacter"></span>tiene <span id="enemyLives"></span> vidas</p>
     </section>
 </body>
 </html>
