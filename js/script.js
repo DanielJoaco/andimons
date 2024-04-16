@@ -1,46 +1,54 @@
-function starGame (){
-    buttonCharacterPlayed = document.getElementById('characterButton')
-    buttonCharacterPlayed.addEventListener('click', selectplayercharacter)
+document.addEventListener('DOMContentLoaded', () => {
+  startGame();
+});
+
+function startGame() {
+  const buttonCharacterPlayed = document.getElementById('characterButton');
+  buttonCharacterPlayed.addEventListener('click', selectPlayerCharacter);
 }
+
 function selectPlayerCharacter() {
-    const inputs = [
-      'marimondex',
-      'chocoramon',
-      'palenqueta',
-      'paramon',
-      'doradon'
-    ];
-  
-    for (const inputId of inputs) {
-      const input = document.getElementById(inputId);
-      if (input.checked) {
-        // Aquí puedes colocar la lógica específica para cada personaje seleccionado
-        switch (inputId) {
-          case 'marimondex':
-            // Código para el personaje marimondex
-            break;
-          case 'chocoramon':
-            // Código para el personaje chocoramon
-            break;
-          case 'palenqueta':
-            // Código para el personaje palenqueta
-            break;
-          case 'paramon':
-            // Código para el personaje paramon
-            break;
-          case 'doradon':
-            // Código para el personaje doradon
-            break;
-          default:
-            break;
-        }
-        return; // Salimos de la función después de procesar el personaje seleccionado
-      }
+  const inputs = {
+    marimondex: 'Marimondex',
+    chocoramon: 'Chocoramon',
+    palenqueta: 'Palenqueta',
+    paramon: 'Paramon',
+    doradon: 'Doradon'
+  };
+  const spanPlayerCharacter = document.getElementById('playerCharacter');
+
+  for (const [inputId, characterName] of Object.entries(inputs)) {
+    const input = document.getElementById(inputId);
+    if (input && input.checked) {
+      spanPlayerCharacter.innerHTML = characterName;
+      selectEnemyCharacter()
+      return;
     }
-  
-    // Si ningún personaje está seleccionado
   }
-  
+  spanPlayerCharacter.innerHTML = 'Ningún personaje seleccionado';
+}
+
+function selectEnemyCharacter() {
+  const enemyCharacter = random(1, 5);
+  const spanEnemyCharacter = document.getElementById('enemyCharacter');
+
+  const inputs = {
+    1: 'Marimondex',
+    2: 'Chocoramon',
+    3: 'Palenqueta',
+    4: 'Paramon',
+    5: 'Doradon'
+  };
+
+  for (const [inputId, characterName] of Object.entries(inputs)) {
+    if (parseInt(inputId) === enemyCharacter) {
+      spanEnemyCharacter.innerHTML = characterName;
+      return;
+    }
+  }
+}
 
 
-window.addEventListener('load', starGame())
+function random(min, max){
+  return Math.floor(Math.random()*(max - min + 1) + min)
+}
