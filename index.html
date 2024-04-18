@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cumbiamón</title>
-    <script src="./js/script.js"></script>
+    <script type="module" src="./js/script.js"></script>
+    <link rel="stylesheet" href="./css/style.css">
 </head>
 <body>
     <h1>Cumbiamón 💃</h1>
@@ -33,10 +34,13 @@
     <section id="selectAttack">
         <h2>Selecciona tu Ataque</h2>
 
-        <p>Tu <span id="playerCharacter"></span> tiene <span id="playerLives">3</span> vidas</p>
-        <p>El <span id="enemyCharacter"></span> rival tiene <span id="enemyLives">3</span> vidas</p>
+        <p>Tu <span id="playerCharacter"></span> tiene <span id="playerHealth"></span> puntos de vidas y <span id="playerStamina"></span>  puntos de estamina</p>
+        <p>El <span id="enemyCharacter"></span> rival tiene <span id="enemyHealth"></span>  puntos de vidas y <span id="enemyStamina"></span>  puntos de estamina</p>
 
         <div id="playerAttacks"></div>
+        <button id="passTurn">Pasar Turno</button>
     </section>
+    <button id="resetButton">Reiniciar</button>
+    <section id="sectionMessage"></section>
 </body>
 </html>
