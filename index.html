@@ -6,41 +6,83 @@
     <title>Cumbiamón</title>
     <script type="module" src="./js/script.js"></script>
     <link rel="stylesheet" href="./css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Handlee&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Pacifico&display=swap" rel="stylesheet">
 </head>
 <body>
-    <h1>Cumbiamón 💃</h1>
-    <h2>Colombia, tierra de ritmo y color</h2>
 
-    <section id="selectCumbiamon">
-        <h2>Selecciona tu Cumbiamon</h2>
+    <section id="sectionCumbiamon">
 
-        <label for="marimondex">Marimondex</label>
-        <input type="radio" name="personaje" id="marimondex" />
+        <div class="title">
+            <h1>Cumbiamón</h1>
+            <img src="./assets/logo cumbiamon.png" alt="Logo Cumbiamón" id="img_logo">
+        </div>
 
-        <label for="chocoramon">Chocoramon</label>
-        <input type="radio" name="personaje" id="chocoramon" />
+        <h2>Selecciona tu personaje:</h2>
+        <div id="buttonCharacters">
 
-        <label for="palenqueta">Palenqueta</label>
-        <input type="radio" name="personaje" id="palenqueta" />
+        <label class="character" for="marimondex">
+            <p class="nameCharacter">Marimondex</p>
+            <img src="./assets/marimondex.png" alt="Marimondex" class="characterImg">
+            <input type="radio" name="personaje" id="marimondex" />
+        </label>
+        
+        <label class="character" for="chocoramon">
+            <p class="nameCharacter">Chocoramon</p>
+            <img src="./assets/chocoramon.png" alt="" class="characterImg">
+            <input type="radio" name="personaje" id="chocoramon" />
+        </label>
+        
+        <label class="character" for="palenqueta">
+            <p class="nameCharacter">Palenqueta</p>
+            <img src="./assets/palenqueta.png" alt="" class="characterImg">
+            <input type="radio" name="personaje" id="palenqueta" />
+        </label>        
 
-        <label for="paramón">Paramón</label>
-        <input type="radio" name="personaje" id="paramón" />
+        <label class="character" for="paramón">
+            <p class="nameCharacter">Paramón</p>
+            <img src="./assets/paramon.png" alt="" class="characterImg">
+            <input type="radio" name="personaje" id="paramón" />
+        </label>        
 
-        <label for="doradón">Doradón</label>
-        <input type="radio" name="personaje" id="doradón" />
+        <label class="character" for="doradón">
+            <p class="nameCharacter">Doradón</p>
+            <img src="./assets/doradon.png" alt="" class="characterImg">
+            <input type="radio" name="personaje" id="doradón" />
+        </label>
+        
+        </div>
+        <button id="characterButton" class="button">Seleccionar personaje</button>
 
-        <button id="characterButton">Seleccionar personaje</button>
     </section>
-    <section id="selectAttack">
-        <h2>Selecciona tu Ataque</h2>
 
-        <p>Tu <span id="playerCharacter"></span> tiene <span id="playerHealth"></span> puntos de vidas y <span id="playerStamina"></span>  puntos de estamina</p>
-        <p>El <span id="enemyCharacter"></span> rival tiene <span id="enemyHealth"></span>  puntos de vidas y <span id="enemyStamina"></span>  puntos de estamina</p>
+    <section id="sectionAttack">
+
+        <div class="title">
+            <h1>Cumbiamón</h1>
+            <img src="./assets/logo cumbiamon.png" alt="Logo Cumbiamón" id="img_logo">
+        </div>
+         <h2>Selecciona tu Ataque:</h2>
 
         <div id="playerAttacks"></div>
-        <button id="passTurn">Pasar Turno</button>
+        <button id="passTurn" class="button">Pasar Turno</button>
+
+        <div id="divPlayersInfo">
+            <div id="playerOneStatistics" class="playersStatistics">
+                <p>Tu <span id="playerCharacter"></span> tiene <span id="playerHealth"></span> puntos de vidas y <span id="playerStamina"></span>  puntos de estamina</p>
+            </div>
+            <div id="turn">Turno</div>
+            <div id="playerTwoStatistics" class="playersStatistics">
+                <p>El <span id="enemyCharacter"></span> rival tiene <span id="enemyHealth"></span>  puntos de vidas y <span id="enemyStamina"></span>  puntos de estamina</p>
+            </div>
+        </div>
+        
     </section>
-    <button id="resetButton">Reiniciar</button>
+
+    <div id="divResetButton">
+        <button id="resetButton" class="button">Reiniciar</button>
+    </div>
+    
     <section id="sectionMessage"></section>
 </body>
 </html>

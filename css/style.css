@@ -1,4 +1,172 @@
-#selectAttack {
-    display: none;
-  }
+body{
+  background-color: #233142;
+}
+
+#sectionCumbiamon{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.title{
+  display: flex;
+  font-size: 36px;
+  margin: 5px 0px 0px 0px;
+  font-family: "Pacifico", cursive;
+  font-weight: 700;
+  color: #FACF5A;
+  flex-direction: column-reverse;
+  align-items: center;
+}
+
+h1{
+  margin: 0px 0px 0px 0px;
+}
+
+#img_logo{
+  width: 10%;
+  height: 10%;
+}
+
+h2{
+  display: flex;
+  font-size: 28px;
+  margin: 0px 0px 5px 0px;
+  font-family: "Open Sans", sans-serif;
+  font-weight: 700;
+  font-style: normal;
+  color: #FACF5A;
+}
+
+input{
+  display: none;
+}
+
+#buttonCharacters{
+  display: flex;
+  margin: 0px 0px 0px 0px;
+}
+
+.character{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 160px;
+  height: 250px;
+  padding: 5px;
+  box-sizing: border-box;
+  margin: 10px;
+  border: 2px solid #4F9DA6;
+  border-radius: 20px;
+  background-color: #FACF5A;
+  color: #FF5959;
+  font-size: 20px;
+  font-family: "Open Sans", sans-serif;
+  font-weight: 700;
+  font-style: italic;
+}
+
+.character:hover{
+  background-color: #4F9DA6;
+  color: #FACF5A;
+}
+
+.nameCharacter{
+  margin: 0px 0px 3px 0px;
+}
+
+.characterImg{
+  width: 80%;
+  height:80%;
+}
+
+.button{
+  padding: 8px;
+  box-sizing: border-box;
+  border: 1px solid #4F9DA6;
+  margin: 10px;
+  border-radius: 20px;
+  background-color: transparent;
+  color: #4F9DA6;
+  font-size: 20px;
+  font-family: "Open Sans", sans-serif;
+  font-weight: 700;
+}
+
+.button:hover{
+  background-color: #4F9DA6;
+  color: #FACF5A;
+}
+
+#sectionAttack{
+  display: none;
+  flex-direction: column;
+  align-items: center;
+}
+
+.buttonAttack{
+  padding: 5px;
+  box-sizing: border-box;
+  border: 2px solid #FACF5A;
+  margin: 10px;
+  border-radius: 20px;
+  background-color: #FF5959;
+  color: #FACF5A;
+  font-size: 16px;
+  font-family: "Open Sans", sans-serif;
+  font-weight: 700;
+}
+
+.buttonAttack:hover{
+  background-color: #FACF5A;
+  color: #4F9DA6;
+}
+
+#divPlayersInfo{
+  display: flex;
+  align-items: center;
   
+}
+
+.playersStatistics{
+  background-color: #4F9DA6;
+  border: 1px solid black;
+  margin: 20px;
+  border-radius: 20px;
+  padding: 10px;
+  font-size: 24px;
+  font-family: "Open Sans", sans-serif;
+  font-weight: 600;
+  font-style: italic;
+  color: white;
+}
+
+#turn{
+  background-color: #4F9DA6;
+  border: 1px solid black;
+  margin: 20px;
+  border-radius: 20px;
+  padding: 10px;
+  font-size: 24px;
+  font-family: "Open Sans", sans-serif;
+  font-weight: 600;
+  font-style: italic;
+  color: white;
+}
+
+#sectionMessage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 20px;
+  font-family: "Open Sans", sans-serif;
+  font-weight: 300;
+  font-style: italic;
+}
+
+#divResetButton{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  }

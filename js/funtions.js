@@ -1,6 +1,27 @@
 import {random} from './utility.js';
 
-
+function calculateDamage(playerOne, playerTwo) {
+  const baseDamage = {
+    low: random(1, 5),
+    standard: random(5, 10),
+    medium: random(10, 15),
+    high: random(15, 20),
+  };
+  let playerOneDamage = { ...baseDamage };
+  let playerTwoDamage = { ...baseDamage };
+  
+  if (playerOne && playerTwo) {
+    let playerOneIsStrong = playerOne.strongAgainst === playerTwo.type;
+    let playerTwoIsStrong = playerTwo.strongAgainst === playerOne.type;
+    
+    if (playerOneIsStrong) {
+      playerOneDamage = applyBonusDamage(baseDamage);
+    } else if (playerTwoIsStrong) {
+      playerTwoDamage = applyBonusDamage(baseDamage);
+    }    
+  }
+  return [playerOneDamage, playerTwoDamage];
+}
 
 function applyBonusDamage(baseDamage) {
 
@@ -13,29 +34,24 @@ function applyBonusDamage(baseDamage) {
   return modifiedDamage;
 }
 
-function calculateDamage(playerCharacter, enemyCharacter) {
-  const baseDamage = {
-    low: random(1, 5),
-    standard: random(5, 10),
-    medium: random(10, 15),
-    high: random(15, 20),
-  };
-  let enemyDamage = { ...baseDamage };
-  let playerDamage = { ...baseDamage };
-  
-  if (playerCharacter && enemyCharacter) {
-    let enemyIsStrong = enemyCharacter.strongAgainst === playerCharacter.type;
-    let playerIsStrong = playerCharacter.strongAgainst === enemyCharacter.type;
-    
-    if (enemyIsStrong) {
-      enemyDamage = applyBonusDamage(baseDamage);
-    } else if (playerIsStrong) {
-      playerDamage = applyBonusDamage(baseDamage);
-    }    
+function decreaseShield(shield){
+  if (shield > 0){
+    return shield - 1;
+  } else {
+    return shield;
   }
-  return [enemyDamage, playerDamage];
 }
-  
+
+function checkEnableButton(round, roundDisabled) {
+  if (round - roundDisabled >= 5) {
+    const attackButtons = document.querySelectorAll('[id="2"]');
+    attackButtons.forEach(button => {
+      button.disabled = false;
+    });
+    return -1;
+  }
+  return roundDisabled;
+}
 
 function damage(skillIndex, damage) {
 
@@ -61,25 +77,10 @@ function damage(skillIndex, damage) {
   return [attackDamage, staminaCost, shield];
 }
 
-function checkEnableButton(round, roundDisabled) {
-  if (round - roundDisabled >= 5) {
-    const attackButtons = document.querySelectorAll('[id="2"]');
-    attackButtons.forEach(button => {
-      button.disabled = false;
-    });
-    return -1;
-  }
-  return roundDisabled;
-}
+
   
 
-function decreaseShield(shield){
-  if (shield > 0){
-    return shield - 1;
-  } else {
-    return shield;
-  }
-}
+
 
 function applyShield(shield, shieldMod){
   if (Number.isInteger(shieldMod)) {
