@@ -69,20 +69,25 @@
 
         <div id="divPlayersInfo">
             <div id="playerOneStatistics" class="playersStatistics">
-                <p>Tu <span id="playerCharacter"></span> tiene <span id="playerHealth"></span> puntos de vidas y <span id="playerStamina"></span>  puntos de estamina</p>
+                <p>Tu <span id="playerCharacter"></span><br>Vida: <span id="playerHealth"></span> <br>Estamina: <span id="playerStamina"></span></span><br>Escudo: <span id="playerShield"></span></p>
             </div>
-            <div id="turn">Turno</div>
+            <div id="divMassage">
+                <p id="round">Ronda: 1</p>  
+                <section id="sectionMessage"></section>              
+            </div>
+            
+            
             <div id="playerTwoStatistics" class="playersStatistics">
-                <p>El <span id="enemyCharacter"></span> rival tiene <span id="enemyHealth"></span>  puntos de vidas y <span id="enemyStamina"></span>  puntos de estamina</p>
+                <p><span id="enemyCharacter"></span> rival<br>Vida: <span id="enemyHealth"></span><br>Estamina: <span id="enemyStamina"></span><br>Escudo: <span id="enemyShield"></span></p>
             </div>
         </div>
+        
         
     </section>
 
     <div id="divResetButton">
         <button id="resetButton" class="button">Reiniciar</button>
-    </div>
+    </div>    
     
-    <section id="sectionMessage"></section>
 </body>
 </html>
