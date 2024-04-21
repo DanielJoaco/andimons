@@ -11,12 +11,17 @@ body{
 .title{
   display: flex;
   font-size: 36px;
-  margin: 5px 0px 0px 0px;
+  margin: 20px 0px 0px 0px;
   font-family: "Pacifico", cursive;
   font-weight: 700;
   color: #FACF5A;
   flex-direction: column-reverse;
   align-items: center;
+  width: 300px;
+  height: 150px;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  background-color: rgba(35, 49, 66, 0.8);
 }
 
 h1{
@@ -24,14 +29,14 @@ h1{
 }
 
 #img_logo{
-  width: 10%;
-  height: 10%;
+  width: 90px;
+  height: 70px;
 }
 
 h2{
   display: flex;
-  font-size: 28px;
-  margin: 0px 0px 5px 0px;
+  font-size: 20px;
+  margin: 3px 0px 5px 0px;
   font-family: "Open Sans", sans-serif;
   font-weight: 700;
   font-style: normal;
@@ -86,10 +91,10 @@ input{
   box-sizing: border-box;
   border: 1px solid #4F9DA6;
   margin: 10px;
-  border-radius: 20px;
+  border-radius: 50px;
   background-color: transparent;
   color: #4F9DA6;
-  font-size: 20px;
+  font-size: 16px;
   font-family: "Open Sans", sans-serif;
   font-weight: 700;
 }
@@ -101,25 +106,74 @@ input{
 
 #playerAttacks{
   display: flex;
+  align-items: center;
+  max-width: 500px;
+  flex-direction: column;
 }
 
 #sectionAttack{
   display: none;
   flex-direction: column;
   align-items: center;
+  background-image: url('../assets/estadio.png'); 
+  background-size: contain; 
+  background-position: center; 
+  background-repeat: no-repeat;
+  width: 1250px;
+  height: 570px;
+}
+
+#head {
+  display: flex; 
+  justify-content: space-between; 
+  width: 1080px;
+  align-items: center; 
+}
+#head p{
+  color: #FACF5A;
+  font-size: 18px;
+  font-family: "Open Sans", sans-serif;
+  font-weight: 700;
+  padding: 10px;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  background-color: rgba(35, 49, 66, 0.8);
+  margin: 0px;
+}
+
+#attacks{
+  display: flex;
+  align-items: flex-start;
+  margin-top: 10px;
+  }
+
+#attacksPlayerOne{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 280px;
+  margin-right: 50px;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  background-color: rgba(35, 49, 66, 0.8);
+}
+#playerAttacks div{
+  display: flex;
 }
 
 .buttonAttack{
-  padding: 5px;
+  padding: 3px;
   box-sizing: border-box;
   border: 2px solid #FACF5A;
-  margin: 10px;
-  border-radius: 20px;
+  margin: 5px;
+  border-radius: 100px;
   background-color: #FF5959;
   color: #FACF5A;
-  font-size: 16px;
+  font-size: 12px;
   font-family: "Open Sans", sans-serif;
   font-weight: 700;
+  display: flex;
+
 }
 
 .buttonAttack:hover{
@@ -129,38 +183,32 @@ input{
 
 #divPlayersInfo{
   display: flex;
+  flex-direction: column;
   align-items: center;
+  margin-right: 310px;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  background-color: rgba(35, 49, 66, 0.8);
+  width: 450px;
+  height: 250px;
+  font-family: "Open Sans", sans-serif;
+  font-weight: 600;
+  font-style: italic;
+  color: white;
   
 }
 
 .playersStatistics{
   display: flex;
   align-items: center;
-  width: 150px;
+  width: 160px;
   height: 190px;
-  margin-top: 0px;
-  margin-bottom: 0px;
   background-color: #4F9DA6;
   border: 1px solid black;
-  margin: 20px;
+  margin: 3px;
   border-radius: 20px;
   padding: 10px;
   font-size: 24px;
-  font-family: "Open Sans", sans-serif;
-  font-weight: 600;
-  font-style: italic;
-  color: white;
-}
-
-#divMassage{
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  background-color: #4F9DA6;
-  border: 1px solid white;
-  border-radius: 20px;
-  width: 500px;
-  height: 250px;
   font-family: "Open Sans", sans-serif;
   font-weight: 600;
   font-style: italic;
@@ -180,17 +228,31 @@ input{
 
 #sectionMessage {
   display: flex;
-  flex-direction: column;
-  width: 450px;
-  height: 150px;
-  border-radius: 20px;
+  justify-content: center;
+  width: 400px;
+  height: 180px;
+  border-radius: 5px;
   max-height: 200px; 
-  background-color: #FACF5A;
   overflow-y: auto; 
   border: 2px solid white; 
-  padding: 5px;
   font-size: 16px; 
-  color: #233142;
+}
+
+#divPlayersInfo #sectionMessage::-webkit-scrollbar {
+  width: 8px; /* Ancho de la barra */
+  background: transparent; /* Color de fondo */
+}
+
+#divPlayersInfo #sectionMessage::-webkit-scrollbar-track {
+  background: #233142; /* Color del carril */
+  border-radius: 10px; /* Bordes redondeados */
+}
+
+#divPlayersInfo #sectionMessage::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.8); /* Color del pulgar */
+  border: 1px solid black;
+  border-radius: 10px; /* Bordes redondeados */
+
 }
 
 #divResetButton{

@@ -58,36 +58,54 @@
 
     <section id="sectionAttack">
 
-        <div class="title">
-            <h1>Cumbiamón</h1>
-            <img src="./assets/logo cumbiamon.png" alt="Logo Cumbiamón" id="img_logo">
-        </div>
-         <h2>Selecciona tu Ataque:</h2>
+        <section id="head">
+            <p>
+                Jugador: 
+                <br><span id="playerCharacter"></span>
+                <br>Vida: <span id="playerHealth"></span>
+                <br>Estamina: <span id="playerStamina"></span></span>
+                <br>Escudo: <span id="playerShield"></span>
+            </p>
+            <div class="title">
+                <h1>Cumbiamón</h1>
+                <img src="./assets/logo cumbiamon.png" alt="Logo Cumbiamón" id="img_logo">
+            </div>
+            <p>
+                Pc: 
+                <br><span id="enemyCharacter"></span>
+                <br>Vida: <span id="enemyHealth"></span>
+                <br>Estamina: <span id="enemyStamina"></span></span>
+                <br>Escudo: <span id="enemyShield"></span>
+            </p>
 
-        <div id="playerAttacks"></div>
-        <button id="passTurn" class="button">Pasar Turno</button>
+        </section>
+        
+        <section id="attacks">
+            <div id="attacksPlayerOne">
+                <h2>Selecciona tu Ataque:</h2>
+                <div id="playerAttacks"></div>
+                <button id="passTurn" class="button">Pasar Turno</button>
+            </div>
 
-        <div id="divPlayersInfo">
-            <div id="playerOneStatistics" class="playersStatistics">
-                <p>Tu <span id="playerCharacter"></span><br>Vida: <span id="playerHealth"></span> <br>Estamina: <span id="playerStamina"></span></span><br>Escudo: <span id="playerShield"></span></p>
-            </div>
-            <div id="divMassage">
-                <p id="round">Ronda: 1</p>  
-                <section id="sectionMessage"></section>              
-            </div>
+            <div id="divPlayersInfo">
             
-            
-            <div id="playerTwoStatistics" class="playersStatistics">
-                <p><span id="enemyCharacter"></span> rival<br>Vida: <span id="enemyHealth"></span><br>Estamina: <span id="enemyStamina"></span><br>Escudo: <span id="enemyShield"></span></p>
+                    <p id="round">Ronda: 1</p>  
+                    <section id="sectionMessage">
+                        <div id="playerOneStatistics" class="playersStatistics"></div>
+                        <div id="playerTwoStatistics" class="playersStatistics"></div>              
+                
             </div>
-        </div>
+
+        </section>
+    
+
         
         
     </section>
 
-    <div id="divResetButton">
+<!--     <div id="divResetButton">
         <button id="resetButton" class="button">Reiniciar</button>
-    </div>    
+    </div>     -->
     
 </body>
 </html>

@@ -5,10 +5,10 @@ document.addEventListener('DOMContentLoaded', () => {
 import {random, capitalize} from './utility.js';
 import {calculateDamage, damage, checkEnableButton, decreaseShield, applyShield, randomAttack, disabledShieldButton, staminaCost} from './funtions.js';
 
-const resetButton = document.getElementById('resetButton');
+/* const resetButton = document.getElementById('resetButton');
 resetButton.addEventListener('click', () => {
   location.reload();
-});
+}); */
 
 const passTurnButton = document.getElementById('passTurn');
 passTurnButton.addEventListener('click', passTurn);
@@ -17,27 +17,27 @@ const cumbiamon = {
   'Chocoramon': {
     type: 'Dulce',
     strongAgainst: 'Psíquico',
-    skils: [ 'Bomba de Chocolate', 'Tormenta de Gominolas', 'Torrones de Azúcar', 'Dulce Encanto', 'Arequipito']
+    skills: [ 'Bomba de Chocolate', 'Tormenta de Gominolas', 'Torrones de Azúcar', 'Dulce Encanto', 'Arequipito']
   },
   'Marimondex': {
     type: 'Psíquico',
     strongAgainst: 'Rocoso',
-    skils: ['Confusión Carnavalera', 'Telequinesis de Tambor', 'Barrera de Maracas', 'Realismo mágico', 'Cumbia control']
+    skills: ['Confusión Carnavalera', 'Telequinesis de Tambor', 'Barrera de Maracas', 'Realismo mágico', 'Cumbia control']
   },
   'Paramón': {
     type: 'Rocoso',
     strongAgainst: 'Lucha',
-    skils: ['Avalancha Andina', 'Terremoto Tropiandes', 'Muralla de Selva', 'Deslizamiento de Río', 'Roca Afilada de Guatapé']
+    skills: ['Avalancha Andina', 'Terremoto Tropiandes', 'Muralla de Selva', 'Deslizamiento de Río', 'Roca Afilada de Guatapé']
   },
   'Palenqueta': {
     type: 'Lucha',
     strongAgainst: 'Metal',
-    skils: ['Golpe de Tambores', 'Patada de Marimba', 'Resguardo Ancestral','Salto de Cimarrón', 'Rebelión']
+    skills: ['Golpe de Tambores', 'Patada de Marimba', 'Resguardo Ancestral','Salto de Cimarrón', 'Rebelión']
   },
   'Doradón': {
     type: 'Metal',
     strongAgainst: 'Dulce' ,
-    skils: ['Destello de Oro', 'Martillo del Dorado', 'Escudo Esmeralda', 'Diamantruenos', 'Estocada de Oricalco']
+    skills: ['Destello de Oro', 'Martillo del Dorado', 'Escudo Esmeralda', 'Diamantruenos', 'Estocada de Oricalco']
   },
 };
 
@@ -129,22 +129,47 @@ function selectEnemyCharacter() {
 }
 
 function generateAttackButtons(properties) {
-
   const playerAttacksDiv = document.getElementById('playerAttacks');
-  let idCounter = 0; 
+  // Limpia el contenido del div antes de agregar nuevos botones
+  playerAttacksDiv.innerHTML = ''; 
 
-  for (const ability of properties.skils) {
-    const attackButton = document.createElement('button');
-    attackButton.textContent = ability;
-    attackButton.id = `${idCounter}`;
-    attackButton.classList.add('buttonAttack');
-    idCounter++;  
-    attackButton.addEventListener('click', () => {
-      startFight(ability);
-    });
-    playerAttacksDiv.appendChild(attackButton);
+  // Define filas con ID únicos
+  const firstRow = document.createElement('div');
+  firstRow.id = 'attack-row-1';
+
+  const secondRow = document.createElement('div');
+  secondRow.id = 'attack-row-2';
+
+  const thirdRow = document.createElement('div');
+  thirdRow.id = 'attack-row-3';
+
+  const rows = [firstRow, secondRow, thirdRow];
+
+  // Loop para crear los botones y agregarlos a las filas
+  for (let i = 0; i < properties.skills.length; i++) {
+      const ability = properties.skills[i];
+      const attackButton = document.createElement('button');
+      attackButton.textContent = ability;
+      attackButton.id = `attack-button-${i}`; // ID único para cada botón
+      attackButton.classList.add('buttonAttack');
+      attackButton.addEventListener('click', () => startFight(ability));
+
+      // Distribución de botones entre filas
+      if (i < 2) {
+          rows[0].appendChild(attackButton); // Primera fila
+      } else if (i === 2) {
+          rows[1].appendChild(attackButton); // Segunda fila
+      } else {
+          rows[2].appendChild(attackButton); // Tercera fila
+      }
   }
+
+  // Añadir las filas al contenedor principal
+  rows.forEach(row => playerAttacksDiv.appendChild(row));
 }
+
+
+
 
 
 function startFight(playerAttack) {
@@ -161,9 +186,9 @@ function startFight(playerAttack) {
 
 function enemyRandomAttack() {
 
-  let playerAttackIndex = player.properties.skils.indexOf(player.turnStatistics.attackName);
-  enemy.turnStatistics.attackName = randomAttack(enemy.attackDisabledRound, enemy.properties.skils)
-  let enemyAttackIndex = enemy.properties.skils.indexOf(enemy.turnStatistics.attackName);
+  let playerAttackIndex = player.properties.skills.indexOf(player.turnStatistics.attackName);
+  enemy.turnStatistics.attackName = randomAttack(enemy.attackDisabledRound, enemy.properties.skills)
+  let enemyAttackIndex = enemy.properties.skills.indexOf(enemy.turnStatistics.attackName);
   battle(playerAttackIndex, enemyAttackIndex);
 }
 
