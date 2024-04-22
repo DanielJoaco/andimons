@@ -1,5 +1,15 @@
 import {random} from './utility.js';
 
+function updateStats(player, enemy, round) {
+  document.getElementById('playerHealth').innerHTML = player.health;
+  document.getElementById('enemyHealth').innerHTML = enemy.health;
+  document.getElementById('playerStamina').innerHTML = player.stamina;
+  document.getElementById('enemyStamina').innerHTML = enemy.stamina;
+  document.getElementById('playerShield').innerHTML = player.shield;
+  document.getElementById('enemyShield').innerHTML = enemy.shield;
+  document.getElementById('round').innerHTML = `Ronda: ${round}`;
+}
+
 function calculateDamage(playerOne, playerTwo) {
   const baseDamage = {
     low: random(1, 5),
@@ -34,16 +44,6 @@ function applyBonusDamage(baseDamage) {
   return modifiedDamage;
 }
 
-function decreaseShield(playerShield, staminaEnemy) {
-  if (!staminaEnemy) {
-    if (playerShield > 0) {
-      return playerShield - 1;
-    }
-  }
-  return playerShield;
-}
-
-
 function checkEnableButton(round, roundDisabled) {
   if (round - roundDisabled >= 5) {
     const attackButtons = document.querySelectorAll('[id="2"]');
@@ -55,45 +55,69 @@ function checkEnableButton(round, roundDisabled) {
   return roundDisabled;
 }
 
-function randomAttack(attackDiseabled, skils){
+function randomAttack(isDisabled, skills){
   let rivalAttackIndex;
   let attackName;
-  if (attackDiseabled  === -1) {
-    rivalAttackIndex = random(0, skils.length - 1);
-    attackName = skils[rivalAttackIndex];
+  if (isDisabled  === -1) {
+    rivalAttackIndex = random(0, skills.length - 1);
+    attackName = skills[rivalAttackIndex];
   } else {
-      const availableAttacks = skils.filter((_, index) => index !== 2);
+      const availableAttacks = skills.filter((_, index) => index !== 2);
       rivalAttackIndex = random(0, availableAttacks.length - 1);
       attackName = availableAttacks[rivalAttackIndex]
   }
   return attackName;
 }
 
-function damage(skillIndex, damage, attackName) {
+function damage(skillIndex, attack, attackName) {
 
+  const attackProperties = {
+    1: { damage: 'standard', staminaCost: [1, 3] },
+    3: { damage: 'standard', staminaCost: [1, 3] },
+    0: { damage: 'medium', staminaCost: [3, 4] }, 
+    2: { damage: 'low', staminaCost: 0, shield: 2 },
+    4: { damage: 'high', staminaCost: [4, 5] },
+  };
   let attackDamage = 0
   let staminaCost = 0
   let shield = 0
 
-  if (attackName !== null){
-    if (skillIndex === 1 || skillIndex === 3) {
-      attackDamage = damage['standard'];
-      staminaCost = random(1, 3);
-    } else if (skillIndex === 0) {
-      attackDamage = damage['medium'];
-      staminaCost = random(3, 4);
-    } else if (skillIndex === 2) {
-      attackDamage = damage['low'];
-      staminaCost = 0;
-      shield = 2;
-    } else {
-      attackDamage = damage['high'];
-      staminaCost = random(4, 5);
-    }
+  if (attackName !== null) {
+    const properties = attackProperties[skillIndex] || {};
+    attackDamage = attack[properties.damage] || 0; 
+    staminaCost = random(...properties.staminaCost || [0, 0]); 
+    shield = properties.shield || 0;
   }
 
-
   return [attackDamage, staminaCost, shield];
+}
+
+function staminaCost(player, rival){
+
+  let insufficientStamina = false;
+  let damageGenerated = player.turnStatistics.damageGenerated
+
+if (player.turnStatistics.staminaCost < player.stamina) {
+  if (rival.shield > 0) {
+    rival.health -= player.turnStatistics.damageGenerated / 2; 
+    damageGenerated /= 2;
+  } else {
+    rival.health -= player.turnStatistics.damageGenerated;
+  }
+  player.stamina -= player.turnStatistics.staminaCost; 
+} else {
+  insufficientStamina = true
+}
+return [player.stamina, rival.health, insufficientStamina, damageGenerated]
+}
+
+function decreaseShield(playerShield, staminaEnemy) {
+  if (!staminaEnemy) {
+    if (playerShield > 0) {
+      return playerShield - 1;
+    }
+  }
+  return playerShield;
 }
 
 function applyShield(shield, shieldMod){
@@ -116,23 +140,4 @@ function disabledShieldButton(shield, roundDisabled, round){
   return roundDisabled
 }
 
-function staminaCost(player, rival){
-
-    let insufficientStamina = false;
-    let damageGenerated = player.turnStatistics.damageGenerated
-
-  if (player.turnStatistics.staminaCost < player.stamina) {
-    if (rival.shield > 0) {
-      rival.health -= player.turnStatistics.damageGenerated / 2; 
-      damageGenerated /= 2;
-    } else {
-      rival.health -= player.turnStatistics.damageGenerated;
-    }
-    player.stamina -= player.turnStatistics.staminaCost; 
-  } else {
-    insufficientStamina = true
-  }
-  return [player.stamina, rival.health, insufficientStamina, damageGenerated]
-}
-
-export { calculateDamage, damage, checkEnableButton, decreaseShield, applyShield, randomAttack, disabledShieldButton, staminaCost}
+export {calculateDamage, damage, checkEnableButton, decreaseShield, applyShield, randomAttack, disabledShieldButton, staminaCost, updateStats}

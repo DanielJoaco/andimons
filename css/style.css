@@ -1,5 +1,7 @@
 body{
   background-color: #233142;
+  display: flex;
+  justify-content: center;
 }
 
 #sectionCumbiamon{
@@ -11,13 +13,13 @@ body{
 .title{
   display: flex;
   font-size: 36px;
-  margin: 20px 0px 0px 0px;
+  margin: 0px;
   font-family: "Pacifico", cursive;
   font-weight: 700;
   color: #FACF5A;
   flex-direction: column-reverse;
   align-items: center;
-  width: 300px;
+  width: 250px;
   height: 150px;
   border: 1px solid transparent;
   border-radius: 10px;
@@ -104,58 +106,61 @@ input{
   color: #FACF5A;
 }
 
-#playerAttacks{
-  display: flex;
-  align-items: center;
-  max-width: 500px;
-  flex-direction: column;
-}
-
 #sectionAttack{
   display: none;
   flex-direction: column;
   align-items: center;
-  background-image: url('../assets/estadio.png'); 
+  background-image: url('../assets/arena.png'); 
   background-size: contain; 
   background-position: center; 
   background-repeat: no-repeat;
-  width: 1250px;
-  height: 570px;
+  height: 600px;
+  width: 1050px;;
 }
 
 #head {
   display: flex; 
   justify-content: space-between; 
-  width: 1080px;
+  height: 30%;
+  width: 100%;
   align-items: center; 
 }
+
 #head p{
   color: #FACF5A;
   font-size: 18px;
   font-family: "Open Sans", sans-serif;
   font-weight: 700;
   padding: 10px;
+  margin: 5px;
   border: 1px solid transparent;
   border-radius: 10px;
-  background-color: rgba(35, 49, 66, 0.8);
-  margin: 0px;
+  background-color: rgba(35, 49, 66, 0.8);  
 }
 
 #attacks{
   display: flex;
-  align-items: flex-start;
-  margin-top: 10px;
-  }
+  justify-content: space-between;
+  height: 43%;
+  width: 100%;
+}
 
 #attacksPlayerOne{
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 280px;
-  margin-right: 50px;
+  justify-content: center;
   border: 1px solid transparent;
   border-radius: 10px;
+  width: 25%;
+  margin: 5px;
   background-color: rgba(35, 49, 66, 0.8);
+}
+
+#playerAttacks{
+  display: flex;
+  align-items: center;
+  flex-direction: column;
 }
 #playerAttacks div{
   display: flex;
@@ -185,12 +190,11 @@ input{
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-right: 310px;
+  height: 95%;
   border: 1px solid transparent;
   border-radius: 10px;
   background-color: rgba(35, 49, 66, 0.8);
-  width: 450px;
-  height: 250px;
+  width: 40%;
   font-family: "Open Sans", sans-serif;
   font-weight: 600;
   font-style: italic;
@@ -198,61 +202,53 @@ input{
   
 }
 
-.playersStatistics{
-  display: flex;
-  align-items: center;
-  width: 160px;
-  height: 190px;
-  background-color: #4F9DA6;
-  border: 1px solid black;
-  margin: 3px;
-  border-radius: 20px;
-  padding: 10px;
-  font-size: 24px;
-  font-family: "Open Sans", sans-serif;
-  font-weight: 600;
-  font-style: italic;
-  color: white;
-}
-
 #round{
   display: flex;
-  margin: 5px 0px 5px 0px;
-  width: 110px;
-  height: 35px;
+  margin: 7px 0px 5px 0px;
   background-color: transparent;
-  border-radius: 20px;
-  padding: 5px;
-  font-size: 24px;
+  font-size: 16px;
 }
 
 #sectionMessage {
   display: flex;
-  justify-content: center;
-  width: 400px;
-  height: 180px;
+  justify-content: space-evenly;
+  width: 95%;
+  height: 80%;
   border-radius: 5px;
-  max-height: 200px; 
   overflow-y: auto; 
-  border: 2px solid white; 
   font-size: 16px; 
 }
 
-#divPlayersInfo #sectionMessage::-webkit-scrollbar {
-  width: 8px; /* Ancho de la barra */
-  background: transparent; /* Color de fondo */
+/* #divPlayersInfo #sectionMessage::-webkit-scrollbar {
+  width: 8px; 
+  background: transparent; 
 }
 
 #divPlayersInfo #sectionMessage::-webkit-scrollbar-track {
-  background: #233142; /* Color del carril */
-  border-radius: 10px; /* Bordes redondeados */
+  background: #233142; 
+  border-radius: 10px; 
 }
 
 #divPlayersInfo #sectionMessage::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.8); /* Color del pulgar */
+  background: rgba(255, 255, 255, 0.8); 
   border: 1px solid black;
-  border-radius: 10px; /* Bordes redondeados */
+  border-radius: 10px; 
+} */
 
+.playersStatistics{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: 1px solid black;
+  width: 40%;
+  margin: 3px;
+  border-radius: 20px;
+  padding: 10px;
+  font-size: 16px;
+  font-family: "Open Sans", sans-serif;
+  font-weight: 600;
+  font-style: italic;
+  color: white;
 }
 
 #divResetButton{
@@ -260,3 +256,16 @@ input{
   flex-direction: column;
   align-items: center;
   }
+#attacksPlayerTwo{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 25%;
+  margin: 5px;
+}
+
+#imgCharacters{
+  width: 100%;
+  height: 27%;
+
+}

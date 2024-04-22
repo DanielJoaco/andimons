@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 import {random, capitalize} from './utility.js';
-import {calculateDamage, damage, checkEnableButton, decreaseShield, applyShield, randomAttack, disabledShieldButton, staminaCost} from './funtions.js';
+import {calculateDamage, damage, checkEnableButton, decreaseShield, applyShield, randomAttack, disabledShieldButton, staminaCost, updateStats} from './funtions.js';
 
 /* const resetButton = document.getElementById('resetButton');
 resetButton.addEventListener('click', () => {
@@ -50,7 +50,7 @@ let player = {
   stamina: 10,
   shield: 0,
   damage: null,
-  attackDisabledRound: -1,
+  hasDisabledAttack: -1,
   turnStatistics: {
     attackName: null,
     damageGenerated: 0,
@@ -65,7 +65,7 @@ let enemy = {
   stamina: 10,
   shield: 0,
   damage: null,
-  attackDisabledRound: -1,
+  hasDisabledAttack: -1,
   turnStatistics: {
     attackName: null,
     damageGenerated: 0,
@@ -84,13 +84,6 @@ function passTurn() {
 }
 
 function startGame() {
-
-  document.getElementById('playerHealth').innerHTML = player.health;
-  document.getElementById('enemyHealth').innerHTML = enemy.health;
-  document.getElementById('playerStamina').innerHTML = player.stamina;
-  document.getElementById('enemyStamina').innerHTML = enemy.stamina;
-  document.getElementById('playerShield').innerHTML = player.shield;
-  document.getElementById('enemyShield').innerHTML = enemy.shield;
   const buttonCharacterPlayed = document.getElementById('characterButton');
   buttonCharacterPlayed.addEventListener('click', selectPlayerCharacter);  
 }
@@ -98,87 +91,82 @@ function startGame() {
 
 function selectPlayerCharacter() {
 
+  const spanPlayerCharacter = document.getElementById('playerCharacter');
+
+  names.forEach((name) => {
+    const input = document.getElementById(name);
+    if (input && input.checked) {
+        player.name = capitalize(name);
+        player.properties = cumbiamon[player.name];
+        spanPlayerCharacter.innerHTML = player.name;
+        return; 
+    }
+  }); 
+
+  if (!player.name) {
+    alert('Por favor selecciona un personaje.');
+    return;
+  } 
   let sectionCumbiamon = document.getElementById('sectionCumbiamon');
   sectionCumbiamon.style.display = 'none';
   let sectionAttack = document.getElementById('sectionAttack');
   sectionAttack.style.display = 'flex';
+  startRound()
+}
 
-  const spanPlayerCharacter = document.getElementById('playerCharacter');
-
-  for (const name of names) {
-      const input = document.getElementById(name);
-      if (input && input.checked) {
-          player.name = capitalize(name)
-          player.properties = cumbiamon[player.name];
-          spanPlayerCharacter.innerHTML = player.name;
-          selectEnemyCharacter();
-          return;
-      }
-  }
-    ;
+function startRound() {
+  selectEnemyCharacter();
+  updateStats(player, enemy, round);
+  generateAttackButtons(player.properties);
 }
 
 function selectEnemyCharacter() {
-
   const enemyCharacterIndex = random(0, names.length - 1);
   enemy.name = capitalize(names[enemyCharacterIndex])
   enemy.properties = cumbiamon[enemy.name];
   document.getElementById('enemyCharacter').innerHTML = enemy.name;
-
-  generateAttackButtons(player.properties);
 }
 
 function generateAttackButtons(properties) {
-  const playerAttacksDiv = document.getElementById('playerAttacks');
-  // Limpia el contenido del div antes de agregar nuevos botones
-  playerAttacksDiv.innerHTML = ''; 
 
-  // Define filas con ID únicos
+  const playerAttacksDiv = document.getElementById('playerAttacks');
+
   const firstRow = document.createElement('div');
   firstRow.id = 'attack-row-1';
-
   const secondRow = document.createElement('div');
   secondRow.id = 'attack-row-2';
-
   const thirdRow = document.createElement('div');
   thirdRow.id = 'attack-row-3';
-
   const rows = [firstRow, secondRow, thirdRow];
 
-  // Loop para crear los botones y agregarlos a las filas
-  for (let i = 0; i < properties.skills.length; i++) {
-      const ability = properties.skills[i];
+  let currentRow = 0;
+  let buttonIndex = 0; 
+
+  properties.skills.forEach(ability => {
       const attackButton = document.createElement('button');
       attackButton.textContent = ability;
-      attackButton.id = `attack-button-${i}`; // ID único para cada botón
+      attackButton.id = `attack-button-${buttonIndex}`; 
       attackButton.classList.add('buttonAttack');
       attackButton.addEventListener('click', () => startFight(ability));
 
-      // Distribución de botones entre filas
-      if (i < 2) {
-          rows[0].appendChild(attackButton); // Primera fila
-      } else if (i === 2) {
-          rows[1].appendChild(attackButton); // Segunda fila
-      } else {
-          rows[2].appendChild(attackButton); // Tercera fila
-      }
-  }
+      rows[currentRow].appendChild(attackButton);
 
-  // Añadir las filas al contenedor principal
+      currentRow++;
+      buttonIndex++;
+      if (currentRow >= rows.length) {
+          currentRow = 0;
+      }
+  });
   rows.forEach(row => playerAttacksDiv.appendChild(row));
 }
-
-
-
-
 
 function startFight(playerAttack) {
 
   [player.damage, enemy.damage] = calculateDamage(player.properties, enemy.properties);
   player.turnStatistics.attackName = playerAttack
-    player.attackDisabledRound = checkEnableButton(round, player.attackDisabledRound) 
-  if (round - enemy.attackDisabledRound  >= 5) {
-    enemy.attackDisabledRound  = -1
+  player.hasDisabledAttack = checkEnableButton(round, player.hasDisabledAttack) 
+  if (round - enemy.hasDisabledAttack  >= 5) {
+    enemy.hasDisabledAttack  = -1
   }
 
   enemyRandomAttack();
@@ -187,7 +175,7 @@ function startFight(playerAttack) {
 function enemyRandomAttack() {
 
   let playerAttackIndex = player.properties.skills.indexOf(player.turnStatistics.attackName);
-  enemy.turnStatistics.attackName = randomAttack(enemy.attackDisabledRound, enemy.properties.skills)
+  enemy.turnStatistics.attackName = randomAttack(enemy.hasDisabledAttack, enemy.properties.skills)
   let enemyAttackIndex = enemy.properties.skills.indexOf(enemy.turnStatistics.attackName);
   battle(playerAttackIndex, enemyAttackIndex);
 }
@@ -197,11 +185,8 @@ function battle(playerAttackIndex, enemyAttackIndex){
   [player.turnStatistics.damageGenerated, player.turnStatistics.staminaCost, player.turnStatistics.shieldGenerated] = damage(playerAttackIndex, player.damage, player.turnStatistics.attackName);
   [enemy.turnStatistics.damageGenerated, enemy.turnStatistics.staminaCost, enemy.turnStatistics.shieldGenerated] = damage(enemyAttackIndex, enemy.damage, enemy.turnStatistics.attackName);
   
-
-  console.log(player,enemy)
-  
-  if (enemy.shield > 0 && enemy.attackDisabledRound  === -1){
-    enemy.attackDisabledRound  = round;
+  if (enemy.shield > 0 && enemy.hasDisabledAttack  === -1){
+    enemy.hasDisabledAttack  = round;
   }
 
   [player.stamina, enemy.health, player.turnStatistics.insufficientStamina, player.turnStatistics.damageGenerated] = staminaCost(player, enemy);
@@ -210,23 +195,15 @@ function battle(playerAttackIndex, enemyAttackIndex){
   player.shield = decreaseShield(player.shield, enemy.turnStatistics.insufficientStamina);
   enemy.shield = decreaseShield(enemy.shield, player.turnStatistics.insufficientStamina);
 
-  
-
-
   player.shield = applyShield(player.shield, player.turnStatistics.shieldGenerated)
   enemy.shield = applyShield(enemy.shield, enemy.turnStatistics.shieldGenerated)
-  player.attackDisabledRound = disabledShieldButton(player.shield, player.attackDisabledRound, round)
-  document.getElementById('playerHealth').innerHTML = player.health;
-  document.getElementById('enemyHealth').innerHTML = enemy.health;  
-  document.getElementById('playerStamina').innerHTML = player.stamina;
-  document.getElementById('enemyStamina').innerHTML = enemy.stamina;
-  document.getElementById('playerShield').innerHTML = player.shield;
-  document.getElementById('enemyShield').innerHTML = enemy.shield;
-  document.getElementById('round').innerHTML = `Ronda: ${round}`;
+  player.hasDisabledAttack = disabledShieldButton(player.shield, player.hasDisabledAttack, round)
+
   round += 1;
   player.stamina += 1;
-  enemy.stamina += 1;  
-
+  enemy.stamina += 1;
+  updateStats(player, enemy, round)
+    
   checkWinner()
 }
 
@@ -240,32 +217,43 @@ function checkWinner(){
 }
 
 function createMessage() {
-  let sectionMessage = document.getElementById('sectionMessage');
-  let paragraph = document.createElement('p')
+  let playerOneStatistics = document.getElementById('playerOneStatistics');
+  let playerTwoStatistics = document.getElementById('playerTwoStatistics');
+  let paragraphOne = ''
+  let paragraphTwo = ''
 
   switch (true) {
     case (!player.turnStatistics.attackName && enemy.turnStatistics.insufficientStamina):
-      paragraph.innerHTML = `Tu ${player.name} pasó turno.\n El ${enemy.name} rival no tiene suficiente estamina.`;
+      paragraphOne.innerHTML = `${player.name}<br>pasó turno.` ;
+      paragraphTwo.innerHTML = `${enemy.name} <br> sin estamina.`;
       break;
     case (!player.turnStatistics.attackName):
-      paragraph.innerHTML = `Tu ${player.name} pasó turno.\n El ${enemy.name} rival atacó con ${enemy.turnStatistics.attackName}, gastó ${enemy.turnStatistics.staminaCost} puntos de estamina y realizó ${enemy.turnStatistics.damageGenerated} de daño.`;
+      paragraphOne = `${player.name} <br> pasó turno<br><br><br><br><br><br>` ;
+      paragraphTwo = `${enemy.name}<br>Atacó con:<br>${enemy.turnStatistics.attackName}<br>Estamina:<br>-${enemy.turnStatistics.staminaCost}<br>Daño realizado:<br>${enemy.turnStatistics.damageGenerated}`;
       break;
     case (player.turnStatistics.insufficientStamina && enemy.turnStatistics.insufficientStamina):
-      paragraph.innerHTML = `Tu ${player.name} no tiene suficiente estamina.\n El ${enemy.name} rival no tiene suficiente estamina.`;
+      paragraphOne = `${player.name}<br>sin estamina<br><br><br><br><br><br>`;
+      paragraphTwo = `${enemy.name}<br>sin estamina<br><br><br><br><br><br>`;
       break;
     case (player.turnStatistics.insufficientStamina):
-      paragraph.innerHTML = `Tu ${player.name} no tiene suficiente estamina.\n El ${enemy.name} rival atacó con ${enemy.turnStatistics.attackName}, gastó ${enemy.turnStatistics.staminaCost} puntos de estamina y realizó ${enemy.turnStatistics.damageGenerated} de daño.`;
+      paragraphOne = `${player.name}<br>sin estamina<br><br><br><br><br><br>`;
+      paragraphTwo = `${enemy.name}<br>Atacó con:<br>${enemy.turnStatistics.attackName}<br>Estamina:<br>-${enemy.turnStatistics.staminaCost}<br>Daño realizado:<br>${enemy.turnStatistics.damageGenerated}`;
       break;
     case (enemy.turnStatistics.insufficientStamina):
-      paragraph.innerHTML = `Tu ${player.name} atacó con ${player.turnStatistics.attackName}, gastó ${player.turnStatistics.staminaCost} puntos de estamina y realizó ${player.turnStatistics.damageGenerated} de daño.\n El ${enemy.name} rival no tiene suficiente estamina.`;
+      paragraphOne = `${player.name}<br>Atacó con:<br>${player.turnStatistics.attackName}<br>Estamina:<br>-${player.turnStatistics.staminaCost}<br>Daño realizado:<br>${player.turnStatistics.damageGenerated}`;
+      paragraphTwo = `${enemy.name}<br>sin estamina<br><br><br><br><br><br>`;
       break;
     default:
-      paragraph.innerHTML = `Tu ${player.name} atacó con ${player.turnStatistics.attackName}, gastó ${player.turnStatistics.staminaCost} puntos de estamina y realizó ${player.turnStatistics.damageGenerated} de daño.\n El ${enemy.name} rival atacó con ${enemy.turnStatistics.attackName}, gastó ${enemy.turnStatistics.staminaCost} puntos de estamina y realizó ${enemy.turnStatistics.damageGenerated} de daño.`;
+      paragraphOne = `${player.name}<br>Atacó con:<br>${player.turnStatistics.attackName}<br>Estamina:<br>-${player.turnStatistics.staminaCost}<br>Daño realizado:<br>${player.turnStatistics.damageGenerated}`;
+      paragraphTwo = `${enemy.name}<br>Atacó con:<br>${enemy.turnStatistics.attackName}<br>Estamina:<br>-${enemy.turnStatistics.staminaCost}<br>Daño realizado:<br>${enemy.turnStatistics.damageGenerated}`;
       break;
   }
 
-  sectionMessage.appendChild(paragraph);
-  sectionMessage.scrollTop = sectionMessage.scrollHeight;
+  playerOneStatistics.innerHTML = paragraphOne;
+  playerTwoStatistics.innerHTML = paragraphTwo;
+/* 
+  let sectionMessage = document.getElementById('sectionMessage')
+  sectionMessage.scrollTop = sectionMessage.scrollHeight; */
 }
 
 function winner(){
