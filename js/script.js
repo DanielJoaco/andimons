@@ -13,35 +13,31 @@ resetButton.addEventListener('click', () => {
 const passTurnButton = document.getElementById('passTurn');
 passTurnButton.addEventListener('click', passTurn);
 
-const cumbiamon = {
-  'Chocoramon': {
-    type: 'Dulce',
-    strongAgainst: 'Psíquico',
-    skills: [ 'Bomba de Chocolate', 'Tormenta de Gominolas', 'Torrones de Azúcar', 'Dulce Encanto', 'Arequipito']
-  },
-  'Marimondex': {
-    type: 'Psíquico',
-    strongAgainst: 'Rocoso',
-    skills: ['Confusión Carnavalera', 'Telequinesis de Tambor', 'Barrera de Maracas', 'Realismo mágico', 'Cumbia control']
-  },
-  'Paramón': {
-    type: 'Rocoso',
-    strongAgainst: 'Lucha',
-    skills: ['Avalancha Andina', 'Terremoto Tropiandes', 'Muralla de Selva', 'Deslizamiento de Río', 'Roca Afilada de Guatapé']
-  },
-  'Palenqueta': {
-    type: 'Lucha',
-    strongAgainst: 'Metal',
-    skills: ['Golpe de Tambores', 'Patada de Marimba', 'Resguardo Ancestral','Salto de Cimarrón', 'Rebelión']
-  },
-  'Doradón': {
-    type: 'Metal',
-    strongAgainst: 'Dulce' ,
-    skills: ['Destello de Oro', 'Martillo del Dorado', 'Escudo Esmeralda', 'Diamantruenos', 'Estocada de Oricalco']
-  },
-};
+class Andimons {
+  constructor(name, type, strongType, img){
+    this.name = name;
+    this.type = type;
+    this.strongType = strongType;
+    this.img = img
+    this.skills = [];
+  }
+}
 
-const names = Object.keys(cumbiamon).map(name => name.toLowerCase());
+let voltair = new Andimons('Voltair', 'flying','bug', './assets/eagle.png')
+let zumzum = new Andimons('Zumzum', 'bug', 'water',  './assets/bee.png')
+let chelonix = new Andimons('Chelonix', 'water', 'fire',  './assets/turtle.png')
+let krokotusk = new Andimons('Krokotusk', 'fire', 'earth',  './assets/crocodile.png')
+let ursoptix = new Andimons('Ursoptix', 'earth', 'flying',  './assets/spectacledBear.png')
+
+voltair.skills.push('Pico certero', 'Garra aérea', 'Viento huracanado', 'Vista afilada', 'Elevación majestuosa')
+zumzum.skills.push('Aguijonada venenosa', 'Enjambre furioso', 'Zumbido ensordecedor', 'Vuelo relámpago', 'Danza de polen')
+chelonix.skills.push('Mordida aplastante', 'Caparazón giratorio', 'Remolino marino', 'Cabezazo demoledor', 'Hidroshielding')
+krokotusk.skills.push('Mordida ígnea', 'Cola flamígera', 'Rugido incandescente', 'Hidrocalor', 'Camuflaje de cenizas')
+ursoptix.skills.push('Garrazo terrateniente', 'Pisotón sísmico', 'Rugido intimidante', 'Avalancha de rocas', 'Bosque frondoso')
+
+let andimons = [voltair, zumzum, chelonix, krokotusk, ursoptix]
+
+let cardContainer = document.getElementById('cardContainer')
 
 let player = {
   name: null,
@@ -84,6 +80,16 @@ function passTurn() {
 }
 
 function startGame() {
+
+  andimons.forEach((andimon)=>{
+    let andimonOptions = `<input type="radio" name="character" id=${andimon.name} />
+    <label class="characterCard" for=${andimon.name}>
+        <p class="characterName">${andimon.name}</p>
+        <img src=${andimon.img} alt=${andimon.name} class="characterImg">            
+    </label>`
+    cardContainer.innerHTML += andimonOptions
+  })
+
   const buttonCharacterPlayed = document.getElementById('characterButton');
   buttonCharacterPlayed.addEventListener('click', selectPlayerCharacter);  
 }
@@ -228,20 +234,20 @@ function createMessage() {
       paragraphTwo.innerHTML = `${enemy.name} <br> sin estamina.`;
       break;
     case (!player.turnStatistics.attackName):
-      paragraphOne = `${player.name} <br> pasó turno<br><br><br><br><br><br>` ;
+      paragraphOne = `${player.name} <br> pasó turno` ;
       paragraphTwo = `${enemy.name}<br>Atacó con:<br>${enemy.turnStatistics.attackName}<br>Estamina:<br>-${enemy.turnStatistics.staminaCost}<br>Daño realizado:<br>${enemy.turnStatistics.damageGenerated}`;
       break;
     case (player.turnStatistics.insufficientStamina && enemy.turnStatistics.insufficientStamina):
-      paragraphOne = `${player.name}<br>sin estamina<br><br><br><br><br><br>`;
-      paragraphTwo = `${enemy.name}<br>sin estamina<br><br><br><br><br><br>`;
+      paragraphOne = `${player.name}<br>sin estamina`;
+      paragraphTwo = `${enemy.name}<br>sin estamina`;
       break;
     case (player.turnStatistics.insufficientStamina):
-      paragraphOne = `${player.name}<br>sin estamina<br><br><br><br><br><br>`;
+      paragraphOne = `${player.name}<br>sin estamina`;
       paragraphTwo = `${enemy.name}<br>Atacó con:<br>${enemy.turnStatistics.attackName}<br>Estamina:<br>-${enemy.turnStatistics.staminaCost}<br>Daño realizado:<br>${enemy.turnStatistics.damageGenerated}`;
       break;
     case (enemy.turnStatistics.insufficientStamina):
       paragraphOne = `${player.name}<br>Atacó con:<br>${player.turnStatistics.attackName}<br>Estamina:<br>-${player.turnStatistics.staminaCost}<br>Daño realizado:<br>${player.turnStatistics.damageGenerated}`;
-      paragraphTwo = `${enemy.name}<br>sin estamina<br><br><br><br><br><br>`;
+      paragraphTwo = `${enemy.name}<br>sin estamina`;
       break;
     default:
       paragraphOne = `${player.name}<br>Atacó con:<br>${player.turnStatistics.attackName}<br>Estamina:<br>-${player.turnStatistics.staminaCost}<br>Daño realizado:<br>${player.turnStatistics.damageGenerated}`;

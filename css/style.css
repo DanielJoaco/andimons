@@ -84,8 +84,8 @@ input{
 }
 
 .characterImg{
-  width: 80%;
-  height:80%;
+  width: 75px;
+  height: 100px;
 }
 
 .button{
@@ -110,7 +110,7 @@ input{
   display: none;
   flex-direction: column;
   align-items: center;
-  background-image: url('../assets/arena.png'); 
+  background-image: url('../assets/arena.jpg'); 
   background-size: contain; 
   background-position: center; 
   background-repeat: no-repeat;
