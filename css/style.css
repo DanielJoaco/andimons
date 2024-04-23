@@ -13,32 +13,26 @@ body{
 .title{
   display: flex;
   font-size: 36px;
-  margin: 0px;
+  margin: 10px;
   font-family: "Pacifico", cursive;
   font-weight: 700;
   color: #FACF5A;
-  flex-direction: column-reverse;
   align-items: center;
-  width: 250px;
-  height: 150px;
+ /*  width: 250px;
+  height: 150px; */
   border: 1px solid transparent;
   border-radius: 10px;
   background-color: rgba(35, 49, 66, 0.8);
 }
 
 h1{
-  margin: 0px 0px 0px 0px;
-}
-
-#img_logo{
-  width: 90px;
-  height: 70px;
+  margin: 0px;
 }
 
 h2{
   display: flex;
   font-size: 20px;
-  margin: 3px 0px 5px 0px;
+  margin: 5px;
   font-family: "Open Sans", sans-serif;
   font-weight: 700;
   font-style: normal;
@@ -49,12 +43,12 @@ input{
   display: none;
 }
 
-#buttonCharacters{
+#cardContainer{
   display: flex;
   margin: 0px 0px 0px 0px;
 }
 
-.character{
+.characterCard{
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -74,18 +68,18 @@ input{
   font-style: italic;
 }
 
-.character:hover{
+.characterCard:hover, input:checked + label{
   background-color: #4F9DA6;
   color: #FACF5A;
 }
 
-.nameCharacter{
+.characterName{
   margin: 0px 0px 3px 0px;
 }
 
 .characterImg{
-  width: 75px;
-  height: 100px;
+  width: 80%;
+  height: 80%;
 }
 
 .button{

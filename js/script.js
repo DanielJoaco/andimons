@@ -11,7 +11,12 @@ resetButton.addEventListener('click', () => {
 }); */
 
 const passTurnButton = document.getElementById('passTurn');
-passTurnButton.addEventListener('click', passTurn);
+const buttonCharacterPlayed = document.getElementById('characterButton');
+const playerAttacksDiv = document.getElementById('playerAttacks');
+const cardContainer = document.getElementById('cardContainer')
+const spanPlayerCharacter = document.getElementById('playerCharacter');
+const sectionCumbiamon = document.getElementById('sectionCumbiamon');
+const sectionAttack = document.getElementById('sectionAttack');
 
 class Andimons {
   constructor(name, type, strongType, img){
@@ -22,6 +27,25 @@ class Andimons {
     this.skills = [];
   }
 }
+
+class Player {
+  constructor() {
+    this.character = null; 
+    this.health = 100;
+    this.stamina = 10;
+    this.shield = 0; 
+    this.damage = null;
+    this.hasDisabledAttack = -1; 
+    this.turnStats = {
+      attack: null,
+      damageGenerated: 0,
+      staminaCost: 0,
+      shieldGenerated: 0,
+      insufficientStamina: false
+    };
+  }
+}
+
 
 let voltair = new Andimons('Voltair', 'flying','bug', './assets/eagle.png')
 let zumzum = new Andimons('Zumzum', 'bug', 'water',  './assets/bee.png')
@@ -36,46 +60,15 @@ krokotusk.skills.push('Mordida ígnea', 'Cola flamígera', 'Rugido incandescente
 ursoptix.skills.push('Garrazo terrateniente', 'Pisotón sísmico', 'Rugido intimidante', 'Avalancha de rocas', 'Bosque frondoso')
 
 let andimons = [voltair, zumzum, chelonix, krokotusk, ursoptix]
-
-let cardContainer = document.getElementById('cardContainer')
-
-let player = {
-  name: null,
-  properties: null,  
-  health: 100,
-  stamina: 10,
-  shield: 0,
-  damage: null,
-  hasDisabledAttack: -1,
-  turnStatistics: {
-    attackName: null,
-    damageGenerated: 0,
-    staminaCost: 0,
-    shieldGenerated: 0,
-    insufficientStamina: false
-  }
-};
-let enemy = {
-  name: null,
-  health: 100,
-  stamina: 10,
-  shield: 0,
-  damage: null,
-  hasDisabledAttack: -1,
-  turnStatistics: {
-    attackName: null,
-    damageGenerated: 0,
-    staminaCost: 0,
-    shieldGenerated: 0,
-    insufficientStamina: false
-  }
-};
+let player = new Player();
+let enemy = new Player();
+console.log(player, enemy)
 let round = 1;
 
 function passTurn() {
-  player.turnStatistics.attackName = null;
-  player.turnStatistics.damageGenerated = 0;
-  player.turnStatistics.staminaCost = 0;
+  player.turnStats.attack = null;
+  player.turnStats.damageGenerated = 0;
+  player.turnStats.staminaCost = 0;
   enemyRandomAttack();
 }
 
@@ -90,32 +83,28 @@ function startGame() {
     cardContainer.innerHTML += andimonOptions
   })
 
-  const buttonCharacterPlayed = document.getElementById('characterButton');
   buttonCharacterPlayed.addEventListener('click', selectPlayerCharacter);  
 }
 
 
 function selectPlayerCharacter() {
 
-  const spanPlayerCharacter = document.getElementById('playerCharacter');
-
-  names.forEach((name) => {
-    const input = document.getElementById(name);
+  andimons.forEach((andimon) => {
+    let input = document.getElementById(andimon.name);
     if (input && input.checked) {
-        player.name = capitalize(name);
-        player.properties = cumbiamon[player.name];
-        spanPlayerCharacter.innerHTML = player.name;
+        player.character = andimon;
+        console.log(player, andimon)
+        spanPlayerCharacter.innerHTML = player.character.name;        
         return; 
     }
   }); 
 
-  if (!player.name) {
+  if (!player.character) {
     alert('Por favor selecciona un personaje.');
     return;
   } 
-  let sectionCumbiamon = document.getElementById('sectionCumbiamon');
-  sectionCumbiamon.style.display = 'none';
-  let sectionAttack = document.getElementById('sectionAttack');
+  
+  sectionCumbiamon.style.display = 'none';  
   sectionAttack.style.display = 'flex';
   startRound()
 }
@@ -123,20 +112,19 @@ function selectPlayerCharacter() {
 function startRound() {
   selectEnemyCharacter();
   updateStats(player, enemy, round);
-  generateAttackButtons(player.properties);
+  generateAttackButtons(player.character);
 }
 
 function selectEnemyCharacter() {
-  const enemyCharacterIndex = random(0, names.length - 1);
-  enemy.name = capitalize(names[enemyCharacterIndex])
-  enemy.properties = cumbiamon[enemy.name];
-  document.getElementById('enemyCharacter').innerHTML = enemy.name;
+  const enemyCharacterIndex = random(0, andimons.length - 1);
+  enemy.character = andimons[enemyCharacterIndex];
+  console.log(enemy)
+  document.getElementById('enemyCharacter').innerHTML = enemy.character.name;
 }
 
-function generateAttackButtons(properties) {
+function generateAttackButtons(character) {
 
-  const playerAttacksDiv = document.getElementById('playerAttacks');
-
+  passTurnButton.addEventListener('click', passTurn);
   const firstRow = document.createElement('div');
   firstRow.id = 'attack-row-1';
   const secondRow = document.createElement('div');
@@ -148,7 +136,7 @@ function generateAttackButtons(properties) {
   let currentRow = 0;
   let buttonIndex = 0; 
 
-  properties.skills.forEach(ability => {
+  character.skills.forEach(ability => {
       const attackButton = document.createElement('button');
       attackButton.textContent = ability;
       attackButton.id = `attack-button-${buttonIndex}`; 
@@ -168,8 +156,8 @@ function generateAttackButtons(properties) {
 
 function startFight(playerAttack) {
 
-  [player.damage, enemy.damage] = calculateDamage(player.properties, enemy.properties);
-  player.turnStatistics.attackName = playerAttack
+  [player.damage, enemy.damage] = calculateDamage(player.character, enemy.character);
+  player.turnStats.attack = playerAttack
   player.hasDisabledAttack = checkEnableButton(round, player.hasDisabledAttack) 
   if (round - enemy.hasDisabledAttack  >= 5) {
     enemy.hasDisabledAttack  = -1
@@ -180,29 +168,29 @@ function startFight(playerAttack) {
 
 function enemyRandomAttack() {
 
-  let playerAttackIndex = player.properties.skills.indexOf(player.turnStatistics.attackName);
-  enemy.turnStatistics.attackName = randomAttack(enemy.hasDisabledAttack, enemy.properties.skills)
-  let enemyAttackIndex = enemy.properties.skills.indexOf(enemy.turnStatistics.attackName);
+  let playerAttackIndex = player.character.skills.indexOf(player.turnStats.attack);
+  enemy.turnStats.attack = randomAttack(enemy.hasDisabledAttack, enemy.character.skills)
+  let enemyAttackIndex = enemy.character.skills.indexOf(enemy.turnStats.attack);
   battle(playerAttackIndex, enemyAttackIndex);
 }
 
 function battle(playerAttackIndex, enemyAttackIndex){
   
-  [player.turnStatistics.damageGenerated, player.turnStatistics.staminaCost, player.turnStatistics.shieldGenerated] = damage(playerAttackIndex, player.damage, player.turnStatistics.attackName);
-  [enemy.turnStatistics.damageGenerated, enemy.turnStatistics.staminaCost, enemy.turnStatistics.shieldGenerated] = damage(enemyAttackIndex, enemy.damage, enemy.turnStatistics.attackName);
+  [player.turnStats.damageGenerated, player.turnStats.staminaCost, player.turnStats.shieldGenerated] = damage(playerAttackIndex, player.damage, player.turnStats.attack);
+  [enemy.turnStats.damageGenerated, enemy.turnStats.staminaCost, enemy.turnStats.shieldGenerated] = damage(enemyAttackIndex, enemy.damage, enemy.turnStats.attack);
   
   if (enemy.shield > 0 && enemy.hasDisabledAttack  === -1){
     enemy.hasDisabledAttack  = round;
   }
 
-  [player.stamina, enemy.health, player.turnStatistics.insufficientStamina, player.turnStatistics.damageGenerated] = staminaCost(player, enemy);
-  [enemy.stamina, player.health, enemy.turnStatistics.insufficientStamina, enemy.turnStatistics.damageGenerated] = staminaCost(enemy, player);
+  [player.stamina, enemy.health, player.turnStats.insufficientStamina, player.turnStats.damageGenerated] = staminaCost(player, enemy);
+  [enemy.stamina, player.health, enemy.turnStats.insufficientStamina, enemy.turnStats.damageGenerated] = staminaCost(enemy, player);
   
-  player.shield = decreaseShield(player.shield, enemy.turnStatistics.insufficientStamina);
-  enemy.shield = decreaseShield(enemy.shield, player.turnStatistics.insufficientStamina);
+  player.shield = decreaseShield(player.shield, enemy.turnStats.insufficientStamina);
+  enemy.shield = decreaseShield(enemy.shield, player.turnStats.insufficientStamina);
 
-  player.shield = applyShield(player.shield, player.turnStatistics.shieldGenerated)
-  enemy.shield = applyShield(enemy.shield, enemy.turnStatistics.shieldGenerated)
+  player.shield = applyShield(player.shield, player.turnStats.shieldGenerated)
+  enemy.shield = applyShield(enemy.shield, enemy.turnStats.shieldGenerated)
   player.hasDisabledAttack = disabledShieldButton(player.shield, player.hasDisabledAttack, round)
 
   round += 1;
@@ -229,29 +217,29 @@ function createMessage() {
   let paragraphTwo = ''
 
   switch (true) {
-    case (!player.turnStatistics.attackName && enemy.turnStatistics.insufficientStamina):
+    case (!player.turnStats.attack && enemy.turnStats.insufficientStamina):
       paragraphOne.innerHTML = `${player.name}<br>pasó turno.` ;
       paragraphTwo.innerHTML = `${enemy.name} <br> sin estamina.`;
       break;
-    case (!player.turnStatistics.attackName):
+    case (!player.turnStats.attack):
       paragraphOne = `${player.name} <br> pasó turno` ;
-      paragraphTwo = `${enemy.name}<br>Atacó con:<br>${enemy.turnStatistics.attackName}<br>Estamina:<br>-${enemy.turnStatistics.staminaCost}<br>Daño realizado:<br>${enemy.turnStatistics.damageGenerated}`;
+      paragraphTwo = `${enemy.name}<br>Atacó con:<br>${enemy.turnStats.attack}<br>Estamina:<br>-${enemy.turnStats.staminaCost}<br>Daño realizado:<br>${enemy.turnStats.damageGenerated}`;
       break;
-    case (player.turnStatistics.insufficientStamina && enemy.turnStatistics.insufficientStamina):
+    case (player.turnStats.insufficientStamina && enemy.turnStats.insufficientStamina):
       paragraphOne = `${player.name}<br>sin estamina`;
       paragraphTwo = `${enemy.name}<br>sin estamina`;
       break;
-    case (player.turnStatistics.insufficientStamina):
+    case (player.turnStats.insufficientStamina):
       paragraphOne = `${player.name}<br>sin estamina`;
-      paragraphTwo = `${enemy.name}<br>Atacó con:<br>${enemy.turnStatistics.attackName}<br>Estamina:<br>-${enemy.turnStatistics.staminaCost}<br>Daño realizado:<br>${enemy.turnStatistics.damageGenerated}`;
+      paragraphTwo = `${enemy.name}<br>Atacó con:<br>${enemy.turnStats.attack}<br>Estamina:<br>-${enemy.turnStats.staminaCost}<br>Daño realizado:<br>${enemy.turnStats.damageGenerated}`;
       break;
-    case (enemy.turnStatistics.insufficientStamina):
-      paragraphOne = `${player.name}<br>Atacó con:<br>${player.turnStatistics.attackName}<br>Estamina:<br>-${player.turnStatistics.staminaCost}<br>Daño realizado:<br>${player.turnStatistics.damageGenerated}`;
+    case (enemy.turnStats.insufficientStamina):
+      paragraphOne = `${player.name}<br>Atacó con:<br>${player.turnStats.attack}<br>Estamina:<br>-${player.turnStats.staminaCost}<br>Daño realizado:<br>${player.turnStats.damageGenerated}`;
       paragraphTwo = `${enemy.name}<br>sin estamina`;
       break;
     default:
-      paragraphOne = `${player.name}<br>Atacó con:<br>${player.turnStatistics.attackName}<br>Estamina:<br>-${player.turnStatistics.staminaCost}<br>Daño realizado:<br>${player.turnStatistics.damageGenerated}`;
-      paragraphTwo = `${enemy.name}<br>Atacó con:<br>${enemy.turnStatistics.attackName}<br>Estamina:<br>-${enemy.turnStatistics.staminaCost}<br>Daño realizado:<br>${enemy.turnStatistics.damageGenerated}`;
+      paragraphOne = `${player.name}<br>Atacó con:<br>${player.turnStats.attack}<br>Estamina:<br>-${player.turnStats.staminaCost}<br>Daño realizado:<br>${player.turnStats.damageGenerated}`;
+      paragraphTwo = `${enemy.name}<br>Atacó con:<br>${enemy.turnStats.attack}<br>Estamina:<br>-${enemy.turnStats.staminaCost}<br>Daño realizado:<br>${enemy.turnStats.damageGenerated}`;
       break;
   }
 
