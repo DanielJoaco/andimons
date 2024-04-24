@@ -19,7 +19,7 @@ function calculateDamage(playerOne, playerTwo) {
   };
   let playerOneDamage = { ...baseDamage };
   let playerTwoDamage = { ...baseDamage };
-  
+
   if (playerOne && playerTwo) {
     let playerOneIsStrong = playerOne.strongAgainst === playerTwo.type;
     let playerTwoIsStrong = playerTwo.strongAgainst === playerOne.type;
@@ -29,7 +29,7 @@ function calculateDamage(playerOne, playerTwo) {
     } else if (playerTwoIsStrong) {
       playerTwoDamage = applyBonusDamage(baseDamage);
     }    
-  }
+  } 
   return [playerOneDamage, playerTwoDamage];
 }
 

@@ -12,6 +12,7 @@ resetButton.addEventListener('click', () => {
 
 const passTurnButton = document.getElementById('passTurn');
 const buttonCharacterPlayed = document.getElementById('characterButton');
+const imgCharacters = document.getElementById('imgCharacters')
 const playerAttacksDiv = document.getElementById('playerAttacks');
 const cardContainer = document.getElementById('cardContainer')
 const sectionCumbiamon = document.getElementById('sectionCumbiamon');
@@ -33,7 +34,8 @@ class Andimons {
 }
 
 class Player {
-  constructor() {
+  constructor(player) {
+    this.player = player
     this.character = null; 
     this.health = 100;
     this.stamina = 10;
@@ -64,8 +66,8 @@ krokotusk.skills.push('Mordida ígnea', 'Cola flamígera', 'Rugido incandescente
 ursoptix.skills.push('Garrazo terrateniente', 'Pisotón sísmico', 'Rugido intimidante', 'Avalancha de rocas', 'Bosque frondoso')
 
 let andimons = [voltair, zumzum, chelonix, krokotusk, ursoptix]
-let player = new Player();
-let enemy = new Player();
+let player = new Player('player');
+let enemy = new Player('enemy');
 let round = 1;
 
 function passTurn() {
@@ -113,6 +115,10 @@ function selectPlayerCharacter() {
 
 function startRound() {
   selectEnemyCharacter();
+
+  crearImagen(player)
+  crearImagen(enemy)
+
   updateStats(player, enemy, round);
   generateAttackButtons(player.character);
 }
@@ -121,6 +127,14 @@ function selectEnemyCharacter() {
   const enemyCharacterIndex = random(0, andimons.length - 1);
   enemy.character = andimons[enemyCharacterIndex];
   document.getElementById('enemyCharacter').innerHTML = enemy.character.name;
+}
+
+function crearImagen(player) { 
+  const img = document.createElement('img');
+  img.src = player.character.img;
+  img.alt = player.character.name;
+  img.id = `img_${player.player}`
+  imgCharacters.appendChild(img); 
 }
 
 function generateAttackButtons(character) {
