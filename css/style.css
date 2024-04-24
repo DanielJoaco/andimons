@@ -151,7 +151,6 @@ input{
 #playerAttacks{
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  /* gap: 10px; */
   place-items: center;
 }
 
@@ -270,4 +269,81 @@ input{
 
 #img_player{
   transform: scaleX(-1);
+}
+
+@media (max-width: 900px) {
+ 
+  .title {
+    font-size: 28px; 
+  }
+
+  h2 {
+    font-size: 18px; 
+  }
+
+  .characterCard {
+    width: 90px; 
+    height: 150px; 
+    font-size: 14px; 
+  }  
+  
+  .button {
+    font-size: 14px; 
+    padding: 5px;
+  } 
+}
+
+
+
+@media (max-width: 560px) {
+
+  .title {
+    font-size: 24px; 
+  }
+
+  h2 {
+    font-size: 16px; 
+  }
+
+  .characterCard {
+    width: 60px; 
+    height: 100px; 
+    font-size: 16px; 
+    font-size: 10px;
+  }  
+
+  .button {
+    font-size: 12px; 
+    padding: 3px;
+  } 
+}
+
+@media (max-width: 440px) {
+  .title {
+    font-size: 20px; 
+  }
+
+  h2 {
+    font-size: 16px; 
+    margin: 3px;
+  }
+
+  #cardContainer{
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  place-items: center;
+  margin: 0px;
+  }
+
+  .characterCard {
+ 
+    width: 50px; 
+    height: 90px; 
+    font-size: 8px;
+  }  
+
+  .button {
+    font-size: 12px; 
+    padding: 3px;
+  } 
 }
