@@ -13,16 +13,13 @@ body{
 .title{
   display: flex;
   font-size: 36px;
-  margin: 10px;
   font-family: "Pacifico", cursive;
   font-weight: 700;
   color: #FACF5A;
   align-items: center;
- /*  width: 250px;
-  height: 150px; */
   border: 1px solid transparent;
   border-radius: 10px;
-  background-color: rgba(35, 49, 66, 0.8);
+  background-color: rgba(35, 49, 66, 0.7);
 }
 
 h1{
@@ -32,7 +29,7 @@ h1{
 h2{
   display: flex;
   font-size: 20px;
-  margin: 5px;
+  margin: 10px;
   font-family: "Open Sans", sans-serif;
   font-weight: 700;
   font-style: normal;
@@ -45,7 +42,7 @@ input{
 
 #cardContainer{
   display: flex;
-  margin: 0px 0px 0px 0px;
+  margin: 20px 0px 20px 0px;
 }
 
 .characterCard{
@@ -78,7 +75,7 @@ input{
 }
 
 .characterImg{
-  width: 80%;
+  width: 100%;
   height: 80%;
 }
 
@@ -152,15 +149,13 @@ input{
 }
 
 #playerAttacks{
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-}
-#playerAttacks div{
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  /* gap: 10px; */
+  place-items: center;
 }
 
-.buttonAttack{
+.buttonsAttacks{
   padding: 3px;
   box-sizing: border-box;
   border: 2px solid #FACF5A;
@@ -175,7 +170,7 @@ input{
 
 }
 
-.buttonAttack:hover{
+.buttonsAttacks:hover{
   background-color: #FACF5A;
   color: #4F9DA6;
 }

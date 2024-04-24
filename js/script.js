@@ -14,9 +14,13 @@ const passTurnButton = document.getElementById('passTurn');
 const buttonCharacterPlayed = document.getElementById('characterButton');
 const playerAttacksDiv = document.getElementById('playerAttacks');
 const cardContainer = document.getElementById('cardContainer')
-const spanPlayerCharacter = document.getElementById('playerCharacter');
 const sectionCumbiamon = document.getElementById('sectionCumbiamon');
 const sectionAttack = document.getElementById('sectionAttack');
+const sectionMessage = document.getElementById('sectionMessage');
+const playerOneStatistics = document.getElementById('playerOneStatistics');
+const playerTwoStatistics = document.getElementById('playerTwoStatistics');
+const selectPlayerAttacks = document.getElementById('playerAttacks');
+const playersStatistics = document.getElementsByClassName('playersStatistics');
 
 class Andimons {
   constructor(name, type, strongType, img){
@@ -62,14 +66,13 @@ ursoptix.skills.push('Garrazo terrateniente', 'Pisotón sísmico', 'Rugido intim
 let andimons = [voltair, zumzum, chelonix, krokotusk, ursoptix]
 let player = new Player();
 let enemy = new Player();
-console.log(player, enemy)
 let round = 1;
 
 function passTurn() {
   player.turnStats.attack = null;
   player.turnStats.damageGenerated = 0;
   player.turnStats.staminaCost = 0;
-  enemyRandomAttack();
+  startFight(player.turnStats.attack);
 }
 
 function startGame() {
@@ -93,8 +96,7 @@ function selectPlayerCharacter() {
     let input = document.getElementById(andimon.name);
     if (input && input.checked) {
         player.character = andimon;
-        console.log(player, andimon)
-        spanPlayerCharacter.innerHTML = player.character.name;        
+        document.getElementById('playerCharacter').innerHTML = player.character.name;        
         return; 
     }
   }); 
@@ -118,40 +120,23 @@ function startRound() {
 function selectEnemyCharacter() {
   const enemyCharacterIndex = random(0, andimons.length - 1);
   enemy.character = andimons[enemyCharacterIndex];
-  console.log(enemy)
   document.getElementById('enemyCharacter').innerHTML = enemy.character.name;
 }
 
 function generateAttackButtons(character) {
 
   passTurnButton.addEventListener('click', passTurn);
-  const firstRow = document.createElement('div');
-  firstRow.id = 'attack-row-1';
-  const secondRow = document.createElement('div');
-  secondRow.id = 'attack-row-2';
-  const thirdRow = document.createElement('div');
-  thirdRow.id = 'attack-row-3';
-  const rows = [firstRow, secondRow, thirdRow];
-
-  let currentRow = 0;
   let buttonIndex = 0; 
-
+  
   character.skills.forEach(ability => {
-      const attackButton = document.createElement('button');
+      let attackButton = document.createElement('button');
       attackButton.textContent = ability;
-      attackButton.id = `attack-button-${buttonIndex}`; 
-      attackButton.classList.add('buttonAttack');
+      attackButton.id = `buttonAttack_${buttonIndex}`; 
+      attackButton.classList.add('buttonsAttacks');
+      playerAttacksDiv.appendChild(attackButton)
       attackButton.addEventListener('click', () => startFight(ability));
-
-      rows[currentRow].appendChild(attackButton);
-
-      currentRow++;
       buttonIndex++;
-      if (currentRow >= rows.length) {
-          currentRow = 0;
-      }
   });
-  rows.forEach(row => playerAttacksDiv.appendChild(row));
 }
 
 function startFight(playerAttack) {
@@ -162,7 +147,6 @@ function startFight(playerAttack) {
   if (round - enemy.hasDisabledAttack  >= 5) {
     enemy.hasDisabledAttack  = -1
   }
-
   enemyRandomAttack();
 }
 
@@ -211,35 +195,34 @@ function checkWinner(){
 }
 
 function createMessage() {
-  let playerOneStatistics = document.getElementById('playerOneStatistics');
-  let playerTwoStatistics = document.getElementById('playerTwoStatistics');
+  
   let paragraphOne = ''
   let paragraphTwo = ''
 
   switch (true) {
     case (!player.turnStats.attack && enemy.turnStats.insufficientStamina):
-      paragraphOne.innerHTML = `${player.name}<br>pasó turno.` ;
-      paragraphTwo.innerHTML = `${enemy.name} <br> sin estamina.`;
+      paragraphOne.innerHTML = `${player.character.name}<br>pasó turno.` ;
+      paragraphTwo.innerHTML = `${enemy.character.name} <br> sin estamina.`;
       break;
     case (!player.turnStats.attack):
-      paragraphOne = `${player.name} <br> pasó turno` ;
-      paragraphTwo = `${enemy.name}<br>Atacó con:<br>${enemy.turnStats.attack}<br>Estamina:<br>-${enemy.turnStats.staminaCost}<br>Daño realizado:<br>${enemy.turnStats.damageGenerated}`;
+      paragraphOne = `${player.character.name} <br> pasó turno` ;
+      paragraphTwo = `${enemy.character.name}<br>Atacó con:<br>${enemy.turnStats.attack}<br>Estamina:<br>-${enemy.turnStats.staminaCost}<br>Daño realizado:<br>${enemy.turnStats.damageGenerated}`;
       break;
     case (player.turnStats.insufficientStamina && enemy.turnStats.insufficientStamina):
-      paragraphOne = `${player.name}<br>sin estamina`;
-      paragraphTwo = `${enemy.name}<br>sin estamina`;
+      paragraphOne = `${player.character.name}<br>sin estamina`;
+      paragraphTwo = `${enemy.character.name}<br>sin estamina`;
       break;
     case (player.turnStats.insufficientStamina):
-      paragraphOne = `${player.name}<br>sin estamina`;
-      paragraphTwo = `${enemy.name}<br>Atacó con:<br>${enemy.turnStats.attack}<br>Estamina:<br>-${enemy.turnStats.staminaCost}<br>Daño realizado:<br>${enemy.turnStats.damageGenerated}`;
+      paragraphOne = `${player.character.name}<br>sin estamina`;
+      paragraphTwo = `${enemy.character.name}<br>Atacó con:<br>${enemy.turnStats.attack}<br>Estamina:<br>-${enemy.turnStats.staminaCost}<br>Daño realizado:<br>${enemy.turnStats.damageGenerated}`;
       break;
     case (enemy.turnStats.insufficientStamina):
-      paragraphOne = `${player.name}<br>Atacó con:<br>${player.turnStats.attack}<br>Estamina:<br>-${player.turnStats.staminaCost}<br>Daño realizado:<br>${player.turnStats.damageGenerated}`;
-      paragraphTwo = `${enemy.name}<br>sin estamina`;
+      paragraphOne = `${player.character.name}<br>Atacó con:<br>${player.turnStats.attack}<br>Estamina:<br>-${player.turnStats.staminaCost}<br>Daño realizado:<br>${player.turnStats.damageGenerated}`;
+      paragraphTwo = `${enemy.character.name}<br>sin estamina`;
       break;
     default:
-      paragraphOne = `${player.name}<br>Atacó con:<br>${player.turnStats.attack}<br>Estamina:<br>-${player.turnStats.staminaCost}<br>Daño realizado:<br>${player.turnStats.damageGenerated}`;
-      paragraphTwo = `${enemy.name}<br>Atacó con:<br>${enemy.turnStats.attack}<br>Estamina:<br>-${enemy.turnStats.staminaCost}<br>Daño realizado:<br>${enemy.turnStats.damageGenerated}`;
+      paragraphOne = `${player.character.name}<br>Atacó con:<br>${player.turnStats.attack}<br>Estamina:<br>-${player.turnStats.staminaCost}<br>Daño realizado:<br>${player.turnStats.damageGenerated}`;
+      paragraphTwo = `${enemy.character.name}<br>Atacó con:<br>${enemy.turnStats.attack}<br>Estamina:<br>-${enemy.turnStats.staminaCost}<br>Daño realizado:<br>${enemy.turnStats.damageGenerated}`;
       break;
   }
 
@@ -251,23 +234,26 @@ function createMessage() {
 }
 
 function winner(){
-  let sectionMessage = document.getElementById('sectionMessage');
+  
   let paragraph = document.createElement('p')
-
-  let selectPlayerAttacks = document.getElementById('playerAttacks');
   const attackButtons = selectPlayerAttacks.getElementsByTagName('button');
+  console.log(attackButtons)
+  
   for (const button of attackButtons) {
     button.disabled = true;
   }
 
   passTurnButton.disabled = true;
+  console.log(playersStatistics)
+  for (let i = 0; i < playersStatistics.length; i++) {
+    playersStatistics[i].style.display = 'none'; 
+  }
 
   if (player.health > enemy.health){
-    paragraph.innerHTML = `Tu ${player.name} gano`
+    paragraph.innerHTML = `Tu ${player.character.name} gano`
   }else{
     paragraph.innerHTML = `Tu rival gano`
   }
-  
   sectionMessage.appendChild(paragraph);
 }
              

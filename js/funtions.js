@@ -95,16 +95,16 @@ function damage(skillIndex, attack, attackName) {
 function staminaCost(player, rival){
 
   let insufficientStamina = false;
-  let damageGenerated = player.turnStatistics.damageGenerated
+  let damageGenerated = player.turnStats.damageGenerated
 
-if (player.turnStatistics.staminaCost < player.stamina) {
+if (player.turnStats.staminaCost < player.stamina) {
   if (rival.shield > 0) {
-    rival.health -= player.turnStatistics.damageGenerated / 2; 
+    rival.health -= player.turnStats.damageGenerated / 2; 
     damageGenerated /= 2;
   } else {
-    rival.health -= player.turnStatistics.damageGenerated;
+    rival.health -= player.turnStats.damageGenerated;
   }
-  player.stamina -= player.turnStatistics.staminaCost; 
+  player.stamina -= player.turnStats.staminaCost; 
 } else {
   insufficientStamina = true
 }
