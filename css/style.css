@@ -351,21 +351,21 @@ input{
   } 
 
   #sectionAttack {
-    width: 560px; /* Reduce el ancho en pantallas pequeñas */
-    height: 315px; /* Reduce el alto */
+    width: 560px; 
+    height: 315px; 
   }
   
   #head p {
-    font-size: 9px; /* Reduce el tamaño del texto */
+    font-size: 9px; 
   }
   
   #attacksPlayerOne, #attacksPlayerTwo {
-    width: 25%; /* Aumenta el ancho de los contenedores de ataque */
+    width: 25%; 
     margin: 5px;
   }
   
   .buttonsAttacks {
-    font-size: 5px; /* Reduce el tamaño de los botones de ataque */
+    font-size: 5px; 
   }
   
   #round, .playersStatistics {
@@ -375,7 +375,7 @@ input{
   
 }
 
-@media (max-width: 440px) {
+@media (max-width: 560px) {
   .title {
     font-size: 20px; 
   }
@@ -399,8 +399,48 @@ input{
   }  
 
   .button {
-    margin: 15px;
-    font-size: 14px; 
+    margin: 5px;
+    font-size: 12px; 
     padding: 3px;
   } 
+
+  #sectionAttack {
+    background-image: url('../assets/arena_vertical.jpg'); 
+    width: 440px; 
+    height: 600px; 
+  }
+  
+  #head p {
+    font-size: 10px; 
+  }
+
+  #divPlayersInfo {
+    height: 65%;
+    width: 40%;
+}
+  
+  #attacksPlayerOne, #attacksPlayerTwo {
+    width: 25%; 
+    margin: 5px;
+    height: 85%;
+  }
+
+  #playerAttacks{
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .buttonsAttacks {
+    font-size: 7px; 
+  }
+  
+  #round, .playersStatistics {
+    font-size: 8.5px;
+    margin: 3px; 
+  }
+
+  #imgCharacters img {
+    height: 80%;
+    width: 20%;
+}
 }
