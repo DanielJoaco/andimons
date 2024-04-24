@@ -279,17 +279,20 @@ input{
 
   h2 {
     font-size: 18px; 
+    margin: 0px;
   }
 
   .characterCard {
     width: 90px; 
     height: 150px; 
     font-size: 14px; 
+    margin: 5px;
   }  
   
   .button {
     font-size: 14px; 
     padding: 5px;
+    margin: 0px;
   } 
 }
 
