@@ -256,7 +256,6 @@ input{
   display: flex; 
   justify-content: center; 
   align-items: center; 
-/*   gap: 20px; */
   width: 100%;
   height: 27%;
 }
@@ -271,7 +270,7 @@ input{
   transform: scaleX(-1);
 }
 
-@media (max-width: 900px) {
+@media (max-width: 1000px) {
  
   .title {
     font-size: 28px; 
@@ -290,22 +289,53 @@ input{
   }  
   
   .button {
-    font-size: 14px; 
+    font-size: 12px; 
     padding: 5px;
     margin: 0px;
   } 
+
+  #sectionAttack {
+  width: 800px; /* Reduce el ancho en pantallas pequeñas */
+  height: 450px; /* Reduce el alto */
 }
 
+#head p {
+  font-size: 12px; /* Reduce el tamaño del texto */
+}
 
+#attacksPlayerOne, #attacksPlayerTwo {
+  width: 25%; /* Aumenta el ancho de los contenedores de ataque */
+  margin: 15px;
+}
 
-@media (max-width: 560px) {
+.buttonsAttacks {
+  font-size: 8px; /* Reduce el tamaño de los botones de ataque */
+  padding: 2px;
+}
+
+#divPlayersInfo {
+  height: 100%;
+  width: 35%; /* Aumenta el ancho del contenedor de información del jugador */
+}
+#round, .playersStatistics {
+  font-size: 12px;
+  margin: 10px; 
+}
+
+#imgCharacters img {
+  width: 10%; /* Aumenta el tamaño de las imágenes */
+  margin: 40px; /* Reduce el margen */
+}
+}
+
+@media (max-width: 800px) {
 
   .title {
-    font-size: 24px; 
+    font-size: 16px; 
   }
 
   h2 {
-    font-size: 16px; 
+    font-size: 12px; 
   }
 
   .characterCard {
@@ -316,9 +346,33 @@ input{
   }  
 
   .button {
-    font-size: 12px; 
+    font-size: 10px; 
     padding: 3px;
   } 
+
+  #sectionAttack {
+    width: 560px; /* Reduce el ancho en pantallas pequeñas */
+    height: 315px; /* Reduce el alto */
+  }
+  
+  #head p {
+    font-size: 9px; /* Reduce el tamaño del texto */
+  }
+  
+  #attacksPlayerOne, #attacksPlayerTwo {
+    width: 25%; /* Aumenta el ancho de los contenedores de ataque */
+    margin: 5px;
+  }
+  
+  .buttonsAttacks {
+    font-size: 5px; /* Reduce el tamaño de los botones de ataque */
+  }
+  
+  #round, .playersStatistics {
+    font-size: 8.5px;
+    margin: 3px; 
+  }
+  
 }
 
 @media (max-width: 440px) {
