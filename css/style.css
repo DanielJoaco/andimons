@@ -1,25 +1,21 @@
 body{
-  background-color: #233142;
   display: flex;
   justify-content: center;
+  background-color: #6b9873;
+  font-family: "Open Sans", sans-serif;
+  font-weight: 700;
+  color: #396365;
 }
 
-#sectionCumbiamon{
+#selectCharacter{
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
 .title{
-  display: flex;
   font-size: 36px;
-  font-family: "Pacifico", cursive;
-  font-weight: 700;
-  color: #FACF5A;
-  align-items: center;
-  border: 1px solid transparent;
-  border-radius: 10px;
-  background-color: rgba(35, 49, 66, 0.7);
+  font-family: "Pacifico";
 }
 
 h1{
@@ -27,13 +23,7 @@ h1{
 }
 
 h2{
-  display: flex;
-  font-size: 20px;
   margin: 10px;
-  font-family: "Open Sans", sans-serif;
-  font-weight: 700;
-  font-style: normal;
-  color: #FACF5A;
 }
 
 input{
@@ -41,33 +31,35 @@ input{
 }
 
 #cardContainer{
-  display: flex;
-  margin: 20px 0px 20px 0px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  margin: 5px;
 }
 
 .characterCard{
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 160px;
-  height: 250px;
-  padding: 5px;
-  box-sizing: border-box;
+  width: 220px;
+  height: 140px;
   margin: 10px;
-  border: 2px solid #4F9DA6;
+  border: 2px solid #c68b8b;
   border-radius: 20px;
-  background-color: #FACF5A;
-  color: #FF5959;
-  font-size: 20px;
-  font-family: "Open Sans", sans-serif;
-  font-weight: 700;
+  background-color: #ebfcd9;
+  font-size: 18px;
   font-style: italic;
 }
 
-.characterCard:hover, input:checked + label{
-  background-color: #4F9DA6;
-  color: #FACF5A;
+.characterCard:hover{
+  background-color: #f4d33b;
+}
+
+
+input:checked + label{
+  background-color: #f4d33b;
+  color: #c68b8b;
+  width: 230px;
+  height: 150px;
 }
 
 .characterName{
@@ -75,194 +67,148 @@ input{
 }
 
 .characterImg{
-  width: 100%;
-  height: 80%;
+  width: 120px;
+  height: 120px;
 }
 
 .button{
   padding: 8px;
-  box-sizing: border-box;
-  border: 1px solid #4F9DA6;
   margin: 10px;
   border-radius: 50px;
-  background-color: transparent;
-  color: #4F9DA6;
+  background-color: #ebfcd9;
+  color: #396365;
   font-size: 16px;
   font-family: "Open Sans", sans-serif;
   font-weight: 700;
 }
 
 .button:hover{
-  background-color: #4F9DA6;
-  color: #FACF5A;
+  background-color: #9de5de;
 }
 
 #sectionAttack{
   display: none;
   flex-direction: column;
-  align-items: center;
-  background-image: url('../assets/arena.jpg'); 
-  background-size: contain; 
-  background-position: center; 
-  background-repeat: no-repeat;
+  background-image: url('../assets/arena.gif'); 
   height: 570px;
   width: 1000px;;
+  color: #f4d33b;
 }
 
 #head {
   display: flex; 
   justify-content: space-between; 
   height: 25%;
-  width: 100%;
-  align-items: center; 
 }
 
 #head p{
-  color: #FACF5A;
-  font-size: 18px;
-  font-family: "Open Sans", sans-serif;
-  font-weight: 700;
-  padding: 10px;
-  margin: 5px;
-  border: 1px solid transparent;
+  padding: 5px;
+  margin: 10px;
   border-radius: 10px;
-  background-color: rgba(35, 49, 66, 0.8);  
+  background-color: #396365;
+  opacity: 0.8;  
 }
 
 #attacks{
   display: flex;
   justify-content: space-between;
-  height: 42%;
+  align-items: center;
+  height: 48%;
   width: 100%;
 }
 
 #attacksPlayerOne{
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  border: 1px solid transparent;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 15%;
+    margin: 1% 6% 1% 4%;
+}
+
+#sectionAttack h2{
   border-radius: 10px;
-  width: 25%;
-  margin: 5px;
-  background-color: rgba(35, 49, 66, 0.8);
+  background-color: #396365;
+  opacity: 0.8; 
+  padding: 5px;
 }
 
 #playerAttacks{
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  place-items: center;
-}
+  }
 
-.buttonsAttacks{
-  padding: 3px;
-  box-sizing: border-box;
-  border: 2px solid #FACF5A;
-  margin: 5px;
-  border-radius: 100px;
-  background-color: #FF5959;
-  color: #FACF5A;
-  font-size: 12px;
-  font-family: "Open Sans", sans-serif;
-  font-weight: 700;
-  display: flex;
-
+  .buttonsAttacks {
+    padding: 3px;
+    margin: 5px;
+    border-radius: 30px;
+    background-color: #f4d33b;
+    font-size: 30px;
+    font-weight: 700;
 }
 
 .buttonsAttacks:hover{
-  background-color: #FACF5A;
-  color: #4F9DA6;
+  background-color: #c68b8b;
 }
 
 #divPlayersInfo{
   display: flex;
   flex-direction: column;
   align-items: center;
-  height: 95%;
-  border: 1px solid transparent;
-  border-radius: 10px;
-  background-color: rgba(35, 49, 66, 0.8);
-  width: 40%;
-  font-family: "Open Sans", sans-serif;
-  font-weight: 600;
-  font-style: italic;
-  color: white;
+  width: 33%;
   
-}
-
-#round{
-  display: flex;
-  margin: 7px 0px 5px 0px;
-  background-color: transparent;
-  font-size: 16px;
 }
 
 #sectionMessage {
   display: flex;
-  justify-content: space-evenly;
+  justify-content: center;
   width: 95%;
   height: 80%;
-  border-radius: 5px;
-  overflow-y: auto; 
-  font-size: 16px; 
 }
-
-/* #divPlayersInfo #sectionMessage::-webkit-scrollbar {
-  width: 8px; 
-  background: transparent; 
-}
-
-#divPlayersInfo #sectionMessage::-webkit-scrollbar-track {
-  background: #233142; 
-  border-radius: 10px; 
-}
-
-#divPlayersInfo #sectionMessage::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.8); 
-  border: 1px solid black;
-  border-radius: 10px; 
-} */
 
 .playersStatistics{
   display: flex;
   flex-direction: column;
   align-items: center;
-  border: 1px solid black;
+  justify-content: center;
+  background-color: #396365;
+  opacity: 0.9;
   width: 40%;
-  margin: 3px;
+  margin: 5px;
   border-radius: 20px;
-  padding: 10px;
-  font-size: 16px;
-  font-family: "Open Sans", sans-serif;
-  font-weight: 600;
-  font-style: italic;
-  color: white;
+  padding: 5px;
+  font-size: 14px;
+  font-weight: 200;
 }
 
-#divResetButton{
-  display: flex;
-  flex-direction: column;
+#resetDiv{
+  display: none;
+  flex-direction: column-reverse;
   align-items: center;
+  background-color: #396365;
+  opacity: 0.9;
+  border-radius: 20px;
+  padding: 15px;
   }
 #attacksPlayerTwo{
   display: flex;
-  flex-direction: column;
   align-items: center;
-  width: 25%;
-  margin: 5px;
+  background-color: #396365;
+  opacity: 0.9;
+  border-radius: 20px;
+  padding: 15px;
+  margin: 60px;
+  height: 20%;
 }
 
 #imgCharacters{
   display: flex; 
   justify-content: center; 
   align-items: center; 
-  width: 100%;
   height: 27%;
 }
 
 #imgCharacters img{
   width: 13%;
-  height: 99%;
   margin: 60px;
 }
 
@@ -286,7 +232,14 @@ input{
     height: 150px; 
     font-size: 14px; 
     margin: 5px;
-  }  
+  }
+
+  input:checked + label{
+    background-color: #4F9DA6;
+    color: #FACF5A;
+    width: 100px;
+    height: 170px;
+  }
   
   .button {
     font-size: 12px; 
@@ -317,9 +270,13 @@ input{
   height: 100%;
   width: 35%; /* Aumenta el ancho del contenedor de información del jugador */
 }
-#round, .playersStatistics {
+#round{
   font-size: 12px;
-  margin: 10px; 
+  margin: 7px;
+}
+.playersStatistics {
+  font-size: 10px;
+  margin: 5px; 
 }
 
 #imgCharacters img {
@@ -343,7 +300,14 @@ input{
     height: 100px; 
     font-size: 16px; 
     font-size: 10px;
-  }  
+  }
+
+  input:checked + label{
+    background-color: #4F9DA6;
+    color: #FACF5A;
+    width: 70px;
+    height: 110px;
+  }
 
   .button {
     font-size: 10px; 
@@ -396,7 +360,14 @@ input{
     width: 80px; 
     height: 120px; 
     font-size: 12px;
-  }  
+  }
+  
+  input:checked + label{
+    background-color: #4F9DA6;
+    color: #FACF5A;
+    width: 90px;
+    height: 130px;
+  }
 
   .button {
     margin: 5px;
@@ -405,7 +376,7 @@ input{
   } 
 
   #sectionAttack {
-    background-image: url('../assets/arena_vertical.jpg'); 
+    background-image: url('../assets/arena_vertical.gif'); 
     width: 440px; 
     height: 600px; 
   }
