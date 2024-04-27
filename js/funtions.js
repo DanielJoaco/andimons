@@ -1,13 +1,22 @@
 import {random} from './utility.js';
 
-function updateStats(player, enemy, round) {
-  document.getElementById('playerHealth').innerHTML = player.health;
-  document.getElementById('enemyHealth').innerHTML = enemy.health;
-  document.getElementById('playerStamina').innerHTML = player.stamina;
-  document.getElementById('enemyStamina').innerHTML = enemy.stamina;
-  document.getElementById('playerShield').innerHTML = player.shield;
-  document.getElementById('enemyShield').innerHTML = enemy.shield;
-  document.getElementById('round').innerHTML = `Ronda: ${round}`;
+function crearImagen(player) { 
+  const img = document.createElement('img');
+  img.src = player.character.img;
+  img.alt = player.character.name;
+  img.id = `img_${player.player}`
+  document.getElementById('imgCharacters').appendChild(img); 
+}
+
+function updateStats(player){
+  let paragraphStats = `
+    ${player.player}: 
+    <br>${player.character.name}
+    <br>Vida: ${player.health}
+    <br>Estamina: ${player.stamina}
+    <br>Escudo: ${player.shield}
+  `
+  return paragraphStats
 }
 
 function randomAttack(isDisabled, skills){
@@ -26,8 +35,17 @@ function randomAttack(isDisabled, skills){
 }
 
 function calculateDamage(attackPlayerOne, attackPlayerTwo, typePlayerOne, typePlayerTwo) {
- 
+
   const bonusDamage = 1.2;
+
+  if (attackPlayerOne === null) {
+    if (typePlayerTwo.strongType === typePlayerOne.name) {
+      return [null, Math.round(random(attackPlayerTwo) * bonusDamage)];
+    } else {
+      return [null, Math.round(random(attackPlayerTwo))];
+    }
+  }
+  
   let damagePlayerOne = random(attackPlayerOne)
   let damagePlayerTwo = random(attackPlayerTwo)
   let playerOneIsStrong = typePlayerOne.strongType === typePlayerTwo.name;
@@ -45,7 +63,7 @@ function calculateDamage(attackPlayerOne, attackPlayerTwo, typePlayerOne, typePl
 
 function checkEnableButton(round, roundDisabled) {
   if (round - roundDisabled >= 5) {
-    const attackButtons = document.querySelectorAll('[id="2"]');
+    const attackButtons = document.querySelectorAll('[id="buttonAttack_0"]');
     attackButtons.forEach(button => {
       button.disabled = false;
     });
@@ -57,7 +75,7 @@ function checkEnableButton(round, roundDisabled) {
 function disabledShieldButton(shield, roundDisabled, round){
 
   if (shield > 0 && roundDisabled === -1) {
-    const attackButtons = document.querySelectorAll('[id="2"]');
+    const attackButtons = document.querySelectorAll('[id="buttonAttack_0"]');
     attackButtons.forEach(button => {
       button.disabled = true;
       roundDisabled = round;
@@ -103,4 +121,4 @@ function applyShield(shield, shieldMod){
 }
 
 
-export {calculateDamage, checkEnableButton, decreaseShield, applyShield, randomAttack, disabledShieldButton, attackCost, updateStats}
+export {crearImagen, calculateDamage, checkEnableButton, decreaseShield, applyShield, randomAttack, disabledShieldButton, attackCost, updateStats}

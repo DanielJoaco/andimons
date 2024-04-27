@@ -2,22 +2,15 @@ document.addEventListener('DOMContentLoaded', () => {
   startGame();
 });
 
-import {random, capitalize} from './utility.js';
-import {calculateDamage, checkEnableButton, decreaseShield, applyShield, randomAttack, disabledShieldButton, attackCost, updateStats} from './funtions.js';
+import {random} from './utility.js';
+import {crearImagen, updateStats, calculateDamage, checkEnableButton, decreaseShield, applyShield, randomAttack, disabledShieldButton, attackCost} from './funtions.js';
 
-const resetButton = document.getElementById('resetButton');
+const statsPlayerOne = document.getElementById('statsPlayerOne')
+const statsPlayerTwo = document.getElementById('statsPlayerTwo')
+const roundDiv = document.getElementById('round')
 const resetDiv = document.getElementById('resetDiv');
 const passTurnButton = document.getElementById('passTurn');
-const buttonCharacterPlayed = document.getElementById('characterButton');
-const imgCharacters = document.getElementById('imgCharacters')
 const playerAttacksDiv = document.getElementById('playerAttacks');
-const cardContainer = document.getElementById('cardContainer')
-const selectCharacter = document.getElementById('selectCharacter');
-const sectionAttack = document.getElementById('sectionAttack');
-const sectionMessage = document.getElementById('sectionMessage');
-const playerOneStatistics = document.getElementById('playerOneStatistics');
-const playerTwoStatistics = document.getElementById('playerTwoStatistics');
-const selectPlayerAttacks = document.getElementById('playerAttacks');
 const playersStatistics = document.getElementsByClassName('playersStatistics');
 
 class Andimons {  
@@ -75,10 +68,9 @@ let enemy = new Player('enemy');
 let round = 0;
 
 function passTurn() {
-  player.turnStats.attack = null;
-  player.turnStats.damage = 0;
+  player.turnStats.damage = null;
   player.turnStats.staminaCost = 0;
-  startFight(player.turnStats.attack);
+  enemyRandomAttack(player.turnStats);
 }
 
 function startGame() {
@@ -89,10 +81,10 @@ function startGame() {
         <p class="characterName">${andimon.name}<br>${andimon.type.emoji}</p>
         <img src=${andimon.img} alt=${andimon.name} class="characterImg">            
     </label>`
-    cardContainer.innerHTML += andimonOptions
+    document.getElementById('cardContainer').innerHTML += andimonOptions
   })
 
-  buttonCharacterPlayed.addEventListener('click', selectPlayerCharacter);  
+  document.getElementById('characterButton').addEventListener('click', selectPlayerCharacter);  
 }
 
 function selectPlayerCharacter() {
@@ -101,7 +93,6 @@ function selectPlayerCharacter() {
     let input = document.getElementById(andimon.name);
     if (input && input.checked) {
         player.character = andimon;
-        document.getElementById('playerCharacter').innerHTML = player.character.name;        
         return; 
     }
   }); 
@@ -111,8 +102,8 @@ function selectPlayerCharacter() {
     return;
   }
   
-  selectCharacter.style.display = 'none';
-  sectionAttack.style.display = 'flex';
+  document.getElementById('selectCharacter').style.display = 'none';
+  document.getElementById('sectionAttack').style.display = 'flex';
 
   startRound()
 }
@@ -123,22 +114,17 @@ function startRound() {
   crearImagen(player)
   crearImagen(enemy)
 
-  updateStats(player, enemy, round);
+  statsPlayerOne.innerHTML = updateStats(player);
+  statsPlayerTwo.innerHTML = updateStats(enemy);
+  roundDiv.innerHTML = `Ronda: ${round}`
+
+
   generateAttackButtons(player.character);
 }
 
 function selectEnemyCharacter() {
   const enemyCharacterIndex = random([0, andimons.length - 1]);
   enemy.character = andimons[enemyCharacterIndex];
-  document.getElementById('enemyCharacter').innerHTML = enemy.character.name;
-}
-
-function crearImagen(player) { 
-  const img = document.createElement('img');
-  img.src = player.character.img;
-  img.alt = player.character.name;
-  img.id = `img_${player.player}`
-  imgCharacters.appendChild(img); 
 }
 
 function generateAttackButtons(character) {
@@ -156,6 +142,7 @@ function generateAttackButtons(character) {
 }
 
 function enemyRandomAttack(playerAttack) {
+
   const enemyAttack = chooseEnemyAttack(enemy);
   const damageResults = calculateDamage(playerAttack.damage, enemyAttack.damage, player.character.type, enemy.character.type);
   updateStatsPlayers(player, enemy, damageResults, playerAttack, enemyAttack);
@@ -188,8 +175,8 @@ function updateStatsPlayers(player, enemy, damageResults, playerAttack, enemyAtt
 
   player.turnStats.attack = playerAttack.name
   enemy.turnStats.attack = enemyAttack.name
-
-  if (playerAttack.name != 'Escudo'){ 
+  console.log(player.turnStats.damage)
+  if (playerAttack.name != 'Escudo' && player.turnStats.damage != null){ 
     player.turnStats.staminaCost = -random(playerAttack.staminaCost)
   } else{
     player.turnStats.staminaCost = playerAttack.staminaCost
@@ -246,7 +233,9 @@ function battle(){
   enemy.stamina += 1;
   player.turnStats.shield = 0
   enemy.turnStats.shield = 0
-  updateStats(player, enemy, round)
+  statsPlayerOne.innerHTML = updateStats(player);
+  statsPlayerTwo.innerHTML = updateStats(enemy);
+  roundDiv.innerHTML = `Ronda: ${round}`
     
   checkWinner()
 }
@@ -262,44 +251,56 @@ function checkWinner(){
 
 function createMessage() {
 
-  sectionMessage.style.display = 'flex'; 
+  document.getElementById('sectionMessage').style.display = 'flex'; 
   let playerMessage
   let enemyMessage
 
-  playerMessage = getPlayerMessage(player, player.turnStats.staminaLow);
-  enemyMessage = getPlayerMessage(enemy, enemy.turnStats.staminaLow);
+  playerMessage = getPlayerMessage(player);
+  enemyMessage = getPlayerMessage(enemy);
 
-  playerOneStatistics.innerHTML = playerMessage;
-  playerTwoStatistics.innerHTML = enemyMessage;
+  document.getElementById('playerOneStatistics').innerHTML = playerMessage;
+  document.getElementById('playerTwoStatistics').innerHTML = enemyMessage;
 
 }
 
 function getPlayerMessage(player, isLowStamina) {
-
   const playerMessages = {
     player: {
       attackMessage: `<strong>${player.character.name}</strong><strong>Uso:</strong>${player.turnStats.attack}<strong>Estamina:</strong>${player.turnStats.staminaCost}<strong>Daño:</strong>${player.turnStats.damage}`,
+      attackShieldMessage: `<strong>${player.character.name}</strong><strong>Uso:</strong>${player.turnStats.attack}<strong>Estamina:</strong>${player.turnStats.staminaCost}<strong>Daño:</strong>${player.turnStats.damage}<strong>Escudo:</strong>+${player.turnStats.shield}`,
       noStaminaMessage: `<strong>${player.character.name}</strong>sin estamina`,
+      passTurn: `<strong>${player.character.name}</strong>Paso turno`
     },
     enemy: {
       attackMessage: `<strong>${enemy.character.name}</strong><strong>Uso:</strong>${enemy.turnStats.attack}<strong>Estamina:</strong>${enemy.turnStats.staminaCost}<strong>Daño:</strong>${enemy.turnStats.damage}`,
+      attackShieldMessage: `<strong>${enemy.character.name}</strong><strong>Uso:</strong>${enemy.turnStats.attack}<strong>Estamina:</strong>${enemy.turnStats.staminaCost}<strong>Daño:</strong>${enemy.turnStats.damage}<strong>Escudo:</strong>+${enemy.turnStats.shield}`,
       noStaminaMessage: `<strong>${enemy.character.name}</strong>sin estamina`,
+      passTurn: `<strong>${enemy.character.name}</strong>Paso turno`
     },
   };
 
   const playerType = player === enemy ? 'enemy' : 'player';
-  return isLowStamina ? playerMessages[playerType].noStaminaMessage : playerMessages[playerType].attackMessage;
+
+  if (player.turnStats.damage === null) {
+    return playerMessages[playerType].passTurn; 
+  }
+
+  if (player.turnStats.attack === 'Escudo') {
+    return playerMessages[playerType].attackShieldMessage;
+  }
+
+  return player.turnStats.staminaLow ? playerMessages[playerType].noStaminaMessage : playerMessages[playerType].attackMessage; 
 }
 
 function winner(){  
 
   resetDiv.style.display = 'flex'
-  resetButton.addEventListener('click', () => {
+  document.getElementById('resetButton').addEventListener('click', () => {
     location.reload();
   });
   
   let paragraph = document.createElement('p')
-  const attackButtons = selectPlayerAttacks.getElementsByTagName('button');
+  const attackButtons = playerAttacksDiv.getElementsByTagName('button');
   console.log(attackButtons)
   
   for (const button of attackButtons) {
@@ -308,7 +309,6 @@ function winner(){
 
   passTurnButton.disabled = true;
   passTurnButton.style.color = '#9de5de';
-  console.log(playersStatistics)
   for (let i = 0; i < playersStatistics.length; i++) {
     playersStatistics[i].style.display = 'none'; 
   }

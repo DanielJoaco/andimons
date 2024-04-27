@@ -102,7 +102,7 @@ input:checked + label{
   height: 25%;
 }
 
-#head p{
+#head div{
   padding: 5px;
   margin: 10px;
   border-radius: 10px;
