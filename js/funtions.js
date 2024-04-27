@@ -8,16 +8,28 @@ function crearImagen(player) {
   document.getElementById('imgCharacters').appendChild(img); 
 }
 
-function updateStats(player){
+function updateStats(player) {
+  const progressBar = (value, max) => {
+    value = value < 0 ? 0 : value;
+    const percentage = Math.min(100, Math.round(value / max * 100));
+    const barLength = 10; 
+    const filledLength = Math.round(percentage * barLength / 100);
+    const emptyLength = barLength - filledLength;
+
+    return `[${"|".repeat(filledLength)}${" ".repeat(emptyLength)}] ${percentage}%`;
+  };
+
   let paragraphStats = `
-    ${player.player}: 
-    <br>${player.character.name}
-    <br>Vida: ${player.health}
-    <br>Estamina: ${player.stamina}
-    <br>Escudo: ${player.shield}
-  `
-  return paragraphStats
+    <strong>${player.player}</strong> 
+    <br>${player.character.name} 
+    <br>Vida: <strong>${progressBar(player.health, 100)}</strong> 
+    <br>Estamina: <strong>${progressBar(player.stamina, 10)}</strong> 
+    <br>Escudo: <strong>${progressBar(player.shield, 2)}</strong> 
+  `;
+
+  return paragraphStats;
 }
+
 
 function randomAttack(isDisabled, skills){
   let rivalAttackIndex;
