@@ -90,6 +90,7 @@ input:checked + label{
   display: none;
   flex-direction: column;
   background-image: url('../assets/arena.gif'); 
+  background-position: center;
   height: 570px;
   width: 1000px;;
   color: #f4d33b;
@@ -159,7 +160,7 @@ input:checked + label{
 }
 
 #sectionMessage {
-  display: flex;
+  display: none;
   justify-content: center;
   width: 95%;
   height: 80%;
@@ -223,66 +224,78 @@ input:checked + label{
   }
 
   h2 {
-    font-size: 18px; 
+    font-size: 16px; 
     margin: 0px;
   }
 
   .characterCard {
-    width: 90px; 
-    height: 150px; 
+    width: 170px; 
+    height: 120px; 
     font-size: 14px; 
     margin: 5px;
   }
 
+  .characterImg{
+    height: 90px;
+    width: 90px;
+  }
+
   input:checked + label{
-    background-color: #4F9DA6;
-    color: #FACF5A;
-    width: 100px;
-    height: 170px;
+    width: 180px;
+    height: 130px;
   }
   
   .button {
     font-size: 12px; 
     padding: 5px;
-    margin: 0px;
+    margin: 5px;
   } 
 
   #sectionAttack {
-  width: 800px; /* Reduce el ancho en pantallas pequeñas */
-  height: 450px; /* Reduce el alto */
-}
+  width: 800px;
+  height: 456px;
+  background-position: center;
+  }
 
-#head p {
-  font-size: 12px; /* Reduce el tamaño del texto */
-}
+  #head p {
+    font-size: 12px; 
+  }
 
-#attacksPlayerOne, #attacksPlayerTwo {
-  width: 25%; /* Aumenta el ancho de los contenedores de ataque */
-  margin: 15px;
-}
+  .buttonsAttacks {
+    font-size: 16px; /* Reduce el tamaño de los botones de ataque */
+    padding: 2px;
+  }
 
-.buttonsAttacks {
-  font-size: 8px; /* Reduce el tamaño de los botones de ataque */
-  padding: 2px;
-}
+  #divPlayersInfo {
+    height: 100%;
+    width: 35%; 
+  }
+  #round{
+    margin: 7px;
+  }
 
-#divPlayersInfo {
-  height: 100%;
-  width: 35%; /* Aumenta el ancho del contenedor de información del jugador */
-}
-#round{
-  font-size: 12px;
-  margin: 7px;
-}
-.playersStatistics {
-  font-size: 10px;
-  margin: 5px; 
-}
+  .playersStatistics {
+    font-size: 10px;
+    margin: 5px; 
+    width: 35%;
+    height: 80%;
+  }
 
-#imgCharacters img {
-  width: 10%; /* Aumenta el tamaño de las imágenes */
-  margin: 40px; /* Reduce el margen */
-}
+  #resetDiv {
+    height: 50%;
+    font-size: 14px;
+  }
+
+  #attacksPlayerTwo {
+    height: 10px;
+    margin: 4.5%;
+
+  }
+
+  #imgCharacters img {
+    width: 13%;
+    margin: 40px;
+  }
 }
 
 @media (max-width: 800px) {
@@ -296,17 +309,20 @@ input:checked + label{
   }
 
   .characterCard {
-    width: 60px; 
-    height: 100px; 
-    font-size: 16px; 
-    font-size: 10px;
+    width: 160px; 
+    height: 110px; 
+    font-size: 12px; 
+    margin: 5px;
+  }
+
+  .characterImg{
+    height: 80px;
+    width: 80px;
   }
 
   input:checked + label{
-    background-color: #4F9DA6;
-    color: #FACF5A;
-    width: 70px;
-    height: 110px;
+    width: 165px; 
+    height: 115px; 
   }
 
   .button {
@@ -316,25 +332,33 @@ input:checked + label{
 
   #sectionAttack {
     width: 560px; 
-    height: 315px; 
+    height: 285px; 
+    background-image: url('../assets/arena_560_285.gif'); 
   }
   
   #head p {
-    font-size: 9px; 
-  }
-  
-  #attacksPlayerOne, #attacksPlayerTwo {
-    width: 25%; 
-    margin: 5px;
-  }
+    font-size: 6px; 
+  } 
   
   .buttonsAttacks {
-    font-size: 5px; 
+    font-size: 12px; 
   }
   
-  #round, .playersStatistics {
-    font-size: 8.5px;
+  .playersStatistics {
+    font-size: 8px;
     margin: 3px; 
+  }
+
+  #resetDiv {
+    height: 60%;
+    font-size: 10px;
+  }
+
+  #attacksPlayerTwo {
+    height: 5px;
+    margin: 4%;
+    font-size: 10px;
+
   }
   
 }
@@ -345,7 +369,7 @@ input:checked + label{
   }
 
   h2 {
-    font-size: 16px; 
+    font-size: 14px; 
     margin: 10px;
   }
 
@@ -357,43 +381,43 @@ input:checked + label{
   }
 
   .characterCard {
-    width: 80px; 
-    height: 120px; 
+    flex-direction: column;
+    justify-content: center;
+    width: 100px; 
+    height: 130px; 
     font-size: 12px;
   }
   
   input:checked + label{
-    background-color: #4F9DA6;
-    color: #FACF5A;
-    width: 90px;
-    height: 130px;
+    width: 105px;
+    height: 140px;
   }
 
   .button {
     margin: 5px;
-    font-size: 12px; 
+    font-size: 11px; 
     padding: 3px;
   } 
 
   #sectionAttack {
     background-image: url('../assets/arena_vertical.gif'); 
-    width: 440px; 
-    height: 600px; 
+    width: 360px; 
+    height: 640px; 
+  }
+
+  #head{
+    align-items: flex-start;
+    height: 20%;
   }
   
   #head p {
-    font-size: 10px; 
+    font-size: 12px; 
   }
-
-  #divPlayersInfo {
-    height: 65%;
-    width: 40%;
-}
   
-  #attacksPlayerOne, #attacksPlayerTwo {
-    width: 25%; 
+  #attacksPlayerOne{
+    width: 20%; 
     margin: 5px;
-    height: 85%;
+
   }
 
   #playerAttacks{
@@ -402,16 +426,32 @@ input:checked + label{
   }
   
   .buttonsAttacks {
-    font-size: 7px; 
+    font-size: 16px; 
   }
-  
-  #round, .playersStatistics {
+
+  #divPlayersInfo {
+    height: 65%;
+    width: 60%;
+}
+  .playersStatistics {
     font-size: 8.5px;
     margin: 3px; 
   }
 
+  #resetDiv {
+    height: 40%;
+  }
+
+  #attacksPlayerTwo{
+    width: 9%; 
+    margin: 5px;
+    font-size: 10px;
+
+
+  }
+
   #imgCharacters img {
-    height: 80%;
+    height: 50%;
     width: 20%;
 }
 }

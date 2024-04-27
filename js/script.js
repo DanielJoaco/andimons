@@ -72,7 +72,7 @@ let jagtiger = new Andimons('Jagtiger', types['earth'], './assets/leopard.gif')
 let andimons = [voltair, zumzum, chelonix, krokotusk, ursoptix, jagtiger]
 let player = new Player('player');
 let enemy = new Player('enemy');
-let round = 1;
+let round = 0;
 
 function passTurn() {
   player.turnStats.attack = null;
@@ -109,9 +109,11 @@ function selectPlayerCharacter() {
   if (!player.character) {
     alert('Por favor selecciona un personaje.');
     return;
-  } 
+  }
+  
   selectCharacter.style.display = 'none';
   sectionAttack.style.display = 'flex';
+
   startRound()
 }
 
@@ -148,7 +150,8 @@ function generateAttackButtons(character) {
     attackButton.id = `buttonAttack_${i}`; 
     attackButton.classList.add('buttonsAttacks');
     playerAttacksDiv.appendChild(attackButton)
-    attackButton.addEventListener('click', () => enemyRandomAttack(ability)); 
+    attackButton.addEventListener('click', () => enemyRandomAttack(ability));
+    
 });
 }
 
@@ -258,7 +261,8 @@ function checkWinner(){
 }
 
 function createMessage() {
-  
+
+  sectionMessage.style.display = 'flex'; 
   let playerMessage
   let enemyMessage
 
