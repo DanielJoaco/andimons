@@ -1,15 +1,12 @@
 @import url('https://fonts.googleapis.com/css2?family=Jersey+10&family=Pixelify+Sans:wght@400..700&display=swap');
 
-/* Evita la selección de texto en todos los elementos HTML */
 html, body {
   user-select: none;
 }
 
-/* Evita la selección de texto en elementos con clase "no-select" */
 .no-select {
   user-select: none;
 }
-
 
 body{
   display: flex;
@@ -20,6 +17,28 @@ body{
   font-weight: 700;
   font-style: normal;
   color: #396365;
+} 
+
+#modal {
+  display: none; 
+  position: fixed; 
+  top: 50%; 
+  left: 50%; 
+  transform: translate(-50%, -50%); 
+  z-index: 1000; 
+  background-color: rgba(0, 0, 0, 0.5);
+  width: 100%;
+  height: 100%;
+}
+
+#modalContent {
+  padding: 20px;
+  border: 2px solid black;
+  border-radius: 20px;
+  background-color: #ebfcd9;
+  text-align: center;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  margin: auto; 
 }
 
 #selectCharacter{
@@ -63,6 +82,7 @@ input{
   margin: 10px;
   border: 2px solid #c68b8b;
   border-radius: 20px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
   background-color: #ebfcd9;
   font-size: 18px;
   font-style: italic;
@@ -93,6 +113,7 @@ input:checked + label{
   padding: 8px;
   margin: 10px;
   border-radius: 50px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
   background-color: #ebfcd9;
   color: #396365;
   font-size: 16px;
@@ -230,7 +251,7 @@ input:checked + label{
 
 #resetDiv{
   display: none;
-  flex-direction: column-reverse;
+  flex-direction: column;
   align-items: center;
   background-color: #396365;
   opacity: 0.9;
@@ -249,9 +270,14 @@ input:checked + label{
   height: 27%;
 }
 
+.imgPlayers{
+  display: flex;
+  justify-content: center;
+}
+
 #imgCharacters img{
-  width: 13%;
-  margin: 60px;
+  width: 50%;
+  margin: 20px;
 }
 
 #img_player{

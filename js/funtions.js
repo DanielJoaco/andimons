@@ -1,11 +1,12 @@
 import {random} from './utility.js';
 
-function crearImagen(player) { 
+function createImage(player, htmlElementet) { 
   const img = document.createElement('img');
   img.src = player.character.img;
   img.alt = player.character.name;
   img.id = `img_${player.player}`
-  document.getElementById('imgCharacters').appendChild(img); 
+  htmlElementet.innerHTML = ''
+  htmlElementet.appendChild(img); 
 }
 
 function updateStats(player) {
@@ -35,11 +36,11 @@ function randomAttack(isDisabled, skills){
   let rivalAttackIndex;
   let attackName;
   if (isDisabled  === -1) {
-    rivalAttackIndex = random([0, Object.keys(skills).length - 1]);
+    rivalAttackIndex = random([0, skills.length - 1]);
     attackName = skills[rivalAttackIndex].emoji;
   } else {
-      const availableAttacks = Object.values(skills).filter((_, index) => index !== 0);
-      console.log(availableAttacks)
+      const availableAttacks = skills.filter((_, index) => index !== 0);
+
       rivalAttackIndex = random([0, availableAttacks.length - 1]);
       attackName = availableAttacks[rivalAttackIndex].emoji
   }
@@ -97,7 +98,7 @@ function disabledShieldButton(shield, roundDisabled, round){
 }
 
 function attackCost(player, rival){
-  console.log('log funtion', player, rival)
+
   let staminaLow = false;
   let damageGenerated = player.turnStats.damage
 
@@ -133,4 +134,4 @@ function applyShield(shield, shieldMod){
 }
 
 
-export {crearImagen, calculateDamage, checkEnableButton, decreaseShield, applyShield, randomAttack, disabledShieldButton, attackCost, updateStats}
+export {createImage, calculateDamage, checkEnableButton, decreaseShield, applyShield, randomAttack, disabledShieldButton, attackCost, updateStats}
