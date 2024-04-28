@@ -5,6 +5,8 @@ document.addEventListener('DOMContentLoaded', () => {
 import {random} from './utility.js';
 import {crearImagen, updateStats, calculateDamage, checkEnableButton, decreaseShield, applyShield, randomAttack, disabledShieldButton, attackCost} from './funtions.js';
 
+const canvasElement = document.getElementById('canvas')
+const canvas = canvasElement.getContext('2d')
 const statsPlayerOne = document.getElementById('statsPlayerOne')
 const statsPlayerTwo = document.getElementById('statsPlayerTwo')
 const roundDiv = document.getElementById('round')
@@ -13,19 +15,30 @@ const passTurnButton = document.getElementById('passTurn');
 const playerAttacksDiv = document.getElementById('playerAttacks');
 const playersStatistics = document.getElementsByClassName('playersStatistics');
 
-class Andimons {  
-  constructor(name, type, img){
+class Andimons {  
+  constructor(name, type, img, head) {
     this.name = name;
     this.type = type;
-    this.img = img
-    this.skills = {
-      0: {damage: [1, 5], staminaCost: 0, generatedShield: 2, emoji: '🛡', name: 'Escudo'},
-      1: {damage: [5, 10], staminaCost:  [1, 3], generatedShield: 0, emoji: '💣', name: 'Ataque bomba'},
-      2: {damage: [10, 15], staminaCost: [3, 4], generatedShield: 0, emoji: '💥', name: 'Ataque explosivo'},
-      3: {damage: [15, 20], staminaCost: [5, 6], generatedShield: 0, emoji: '☣', name: 'Riesgo biologico'},
-    }
+    this.img = img;
+    this.canvas = {
+      head: new Image(),
+      x: 430,
+      y: 240,
+      width: 40,
+      height: 40,
+      speedX: 0,
+      speedY: 0
+    };
+    this.canvas.head.src = head; 
+    this.skills = [
+      { damage: [1, 5], staminaCost: 0, generatedShield: 2, emoji: '🛡', name: 'Escudo' },
+      { damage: [5, 10], staminaCost:  [1, 3], generatedShield: 0, emoji: '💣', name: 'Ataque bomba' },
+      { damage: [10, 15], staminaCost: [3, 4], generatedShield: 0, emoji: '💥', name: 'Ataque explosivo' },
+      { damage: [15, 20], staminaCost: [5, 6], generatedShield: 0, emoji: '☣', name: 'Riesgo biologico' }
+    ];
   }
 }
+
 
 class Player {
   constructor(player) {
@@ -55,17 +68,18 @@ const types = {
 }
 
 
-let voltair = new Andimons('Voltair', types['flying'], './assets/eagle.gif')
-let zumzum = new Andimons('Zumzum', types['bug'], './assets/bee.gif')
-let chelonix = new Andimons('Chelonix', types['water'], './assets/turtle.gif')
-let krokotusk = new Andimons('Krokotusk', types['fire'], './assets/crocodile.gif')
-let ursoptix = new Andimons('Ursoptix', types['plant'], './assets/spectacledBear.gif')
-let jagtiger = new Andimons('Jagtiger', types['earth'], './assets/leopard.gif')
+let voltair = new Andimons('Voltair', types['flying'], './assets/eagle.gif', './assets/eagle_head.gif')
+let zumzum = new Andimons('Zumzum', types['bug'], './assets/bee.gif', './assets/bee_head.gif')
+let chelonix = new Andimons('Chelonix', types['water'], './assets/turtle.gif', './assets/turtle_head.gif')
+let krokotusk = new Andimons('Krokotusk', types['fire'], './assets/crocodile.gif', './assets/crocodile_head.gif')
+let ursoptix = new Andimons('Ursoptix', types['plant'], './assets/spectacledBear.gif', './assets/spectacledBear_head.gif')
+let jagtiger = new Andimons('Jagtiger', types['earth'], './assets/leopard.gif', './assets/leopard_head.gif')
 
 let andimons = [voltair, zumzum, chelonix, krokotusk, ursoptix, jagtiger]
 let player = new Player('player');
 let enemy = new Player('enemy');
 let round = 0;
+let inverval
 
 function passTurn() {
   player.turnStats.damage = null;
@@ -101,14 +115,61 @@ function selectPlayerCharacter() {
     alert('Por favor selecciona un personaje.');
     return;
   }
-  
+  document.getElementById('sectionCanvas').style.display = 'flex';
   document.getElementById('selectCharacter').style.display = 'none';
-  document.getElementById('sectionAttack').style.display = 'flex';
-
-  startRound()
+  inverval = setInterval(() => drawCanvas(player.character.canvas), 50)
+/* 
+  startRound() */
 }
 
+function drawCanvas(canvasParameters){
+  canvasParameters.x = canvasParameters.x + canvasParameters.speedX
+  canvasParameters.y = canvasParameters.y + canvasParameters.speedY
+
+  canvas.clearRect(0, 0, canvasElement.width, canvasElement.height)
+  
+  canvas.drawImage(
+    canvasParameters.head,
+    canvasParameters.x,
+    canvasParameters.y,
+    canvasParameters.width,
+    canvasParameters.height
+  );
+}
+
+function moveCharacter(button) {
+
+  const buttonId = button.dataset.buttonId;
+  switch (buttonId) {
+    case 'up':
+      player.character.canvas.speedY = -5
+      break;
+    case 'down':
+      player.character.canvas.speedY = 5
+    break;
+    case 'left':
+      player.character.canvas.speedX = -5
+    break;
+    case 'right':
+      player.character.canvas.speedX = 5
+    break;
+    default:
+      console.log('Boton no definido')
+      break;
+  }
+
+}
+
+function stopCharacter() {
+  player.character.canvas.speedX = 0;
+  player.character.canvas.speedY = 0;
+  
+}
+
+
 function startRound() {
+  document.getElementById('selectCharacter').style.display = 'none';
+  document.getElementById('sectionAttack').style.display = 'flex';
   selectEnemyCharacter();
 
   crearImagen(player)
@@ -320,4 +381,7 @@ function winner(){
   }
   resetDiv.appendChild(paragraph);
 }
+
+window.moveCharacter = moveCharacter;
+window.stopCharacter = stopCharacter;
              

@@ -1,9 +1,24 @@
+@import url('https://fonts.googleapis.com/css2?family=Jersey+10&family=Pixelify+Sans:wght@400..700&display=swap');
+
+/* Evita la selección de texto en todos los elementos HTML */
+html, body {
+  user-select: none;
+}
+
+/* Evita la selección de texto en elementos con clase "no-select" */
+.no-select {
+  user-select: none;
+}
+
+
 body{
   display: flex;
   justify-content: center;
   background-color: #6b9873;
-  font-family: "Open Sans", sans-serif;
+  font-family: "Pixelify Sans", sans-serif;
+  font-optical-sizing: auto;
   font-weight: 700;
+  font-style: normal;
   color: #396365;
 }
 
@@ -15,7 +30,10 @@ body{
 
 .title{
   font-size: 36px;
-  font-family: "Pacifico";
+  font-family: "Jersey 10", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+
 }
 
 h1{
@@ -78,7 +96,8 @@ input:checked + label{
   background-color: #ebfcd9;
   color: #396365;
   font-size: 16px;
-  font-family: "Open Sans", sans-serif;
+  font-family: "Pixelify Sans", sans-serif;
+  font-optical-sizing: auto;
   font-weight: 700;
 }
 
@@ -86,11 +105,38 @@ input:checked + label{
   background-color: #9de5de;
 }
 
+#sectionCanvas{
+  display: none;
+  flex-direction: column;
+  align-items: center;
+}
+
+#canvas{
+  margin: 20px;
+  border: 2px solid black;
+  background-image: url('../assets/canvas.gif');
+}
+
+#moveButtons{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: 2px solid black;
+  border-radius: 10px;
+  background-color: #396365;
+  opacity: 0.8;
+}
+
+#bottomButtons{
+  display: flex;
+}
+
 #sectionAttack{
   display: none;
   flex-direction: column;
   background-image: url('../assets/arena.gif'); 
   background-position: center;
+  border: 2px solid black;
   height: 570px;
   width: 1000px;;
   color: #f4d33b;
