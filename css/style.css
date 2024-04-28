@@ -148,8 +148,12 @@ input:checked + label{
   opacity: 0.8;
 }
 
-#bottomButtons{
+#bottomButtons, #topButtons{
   display: flex;
+  justify-content: space-around;
+  align-items: center;
+  color: #f4d33b;
+  width: 100%;
 }
 
 #sectionAttack{

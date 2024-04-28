@@ -156,7 +156,8 @@ function showModal(text, section){
 function starCanvas(){
 
   console.log('Vidas jugador = ', player.lifes, 'Victorias jugador = ', player.wins)
-
+  document.getElementById('lifesPlaver').innerHTML = `❤️= ${player.lifes}`
+  document.getElementById('winsPlayer').innerHTML = `🏆= ${player.wins}`
   deleteCharacterArray(player.character.name)
   document.getElementById('sectionCanvas').style.display = 'flex';
   document.getElementById('selectCharacter').style.display = 'none';

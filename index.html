@@ -45,7 +45,13 @@
         <canvas id="canvas" width="500" height="285"></canvas>
 
         <div id="moveButtons">
-            <button onmouseup="stopCharacter()" onmousedown="moveCharacter(this)" data-button-id="Up" class="button">Arriba</button>
+            <div id="topButtons">
+                <p id="lifesPlaver"></p>
+                <button onmouseup="stopCharacter()" onmousedown="moveCharacter(this)" data-button-id="Up" class="button">Arriba</button>
+                <p id="winsPlayer"></p>
+            </div>
+
+
             <div id="bottomButtons">
                 <button onmouseup="stopCharacter()" onmousedown="moveCharacter(this)" data-button-id="Left" class="button">Izquierda</button>
                 <button onmouseup="stopCharacter()" onmousedown="moveCharacter(this)" data-button-id="Down" class="button">Abajo</button>
