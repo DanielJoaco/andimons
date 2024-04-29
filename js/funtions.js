@@ -1,15 +1,15 @@
-import {random} from './utility.js';
+/* import {random} from './utility.js'; */
 
-function createImage(player, htmlElementet) { 
+/* function createImage(player, htmlElementet) { 
   const img = document.createElement('img');
   img.src = player.character.img;
   img.alt = player.character.name;
   img.id = `img_${player.player}`
   htmlElementet.innerHTML = ''
   htmlElementet.appendChild(img); 
-}
+} */
 
-function updateStats(player) {
+/* function updateStats(player) {
   const progressBar = (value, max) => {
     value = value < 0 ? 0 : value;
     const percentage = Math.min(100, Math.round(value / max * 100));
@@ -29,10 +29,10 @@ function updateStats(player) {
   `;
 
   return paragraphStats;
-}
+} */
 
 
-function randomAttack(isDisabled, skills){
+/* function randomAttack(isDisabled, skills){
   let rivalAttackIndex;
   let attackName;
   if (isDisabled  === -1) {
@@ -45,9 +45,9 @@ function randomAttack(isDisabled, skills){
       attackName = availableAttacks[rivalAttackIndex].emoji
   }
   return attackName;
-}
+} */
 
-function calculateDamage(attackPlayerOne, attackPlayerTwo, typePlayerOne, typePlayerTwo) {
+/* function calculateDamage(attackPlayerOne, attackPlayerTwo, typePlayerOne, typePlayerTwo) {
 
   const bonusDamage = 1.2;
 
@@ -71,10 +71,10 @@ function calculateDamage(attackPlayerOne, attackPlayerTwo, typePlayerOne, typePl
   } 
 
   return [Math.round(damagePlayerOne), Math.round(damagePlayerTwo)];
-}
+} */
 
 
-function checkEnableButton(round, roundDisabled) {
+/* function checkEnableButton(round, roundDisabled) {
   if (round - roundDisabled >= 5) {
     const attackButtons = document.querySelectorAll('[id="buttonAttack_0"]');
     attackButtons.forEach(button => {
@@ -83,9 +83,9 @@ function checkEnableButton(round, roundDisabled) {
     return -1;
   }
   return roundDisabled;
-}
+} */
 
-function disabledShieldButton(shield, roundDisabled, round){
+/* function disabledShieldButton(shield, roundDisabled, round){
 
   if (shield > 0 && roundDisabled === -1) {
     const attackButtons = document.querySelectorAll('[id="buttonAttack_0"]');
@@ -95,8 +95,8 @@ function disabledShieldButton(shield, roundDisabled, round){
     });
   }
   return roundDisabled
-}
-
+} */
+/* 
 function attackCost(player, rival){
 
   let staminaLow = false;
@@ -114,9 +114,9 @@ if (-player.turnStats.staminaCost < player.stamina) {
   staminaLow = true
 }
 return [player.stamina, staminaLow, damageGenerated, rival.health]
-}
+} */
 
-function decreaseShield(playerShield, staminaLessRival) {
+/* function decreaseShield(playerShield, staminaLessRival) {
   if (!staminaLessRival) {
     if (playerShield > 0) {
       return playerShield - 1;
@@ -131,7 +131,7 @@ function applyShield(shield, shieldMod){
     return shield;
   } 
   return [shield]
-}
+} */
 
 
-export {createImage, calculateDamage, checkEnableButton, decreaseShield, applyShield, randomAttack, disabledShieldButton, attackCost, updateStats}
+/* export {createImage, calculateDamage, checkEnableButton, decreaseShield, applyShield, randomAttack, disabledShieldButton, attackCost, updateStats} */
