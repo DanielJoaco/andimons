@@ -63,8 +63,9 @@ h2{
   margin: 10px;
 }
 
-input{
+input, #resetGame{
   display: none;
+  justify-content: center;
 }
 
 #cardContainer{

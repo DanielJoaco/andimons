@@ -149,23 +149,27 @@ function showModal(text, section){
   });
   } else if (section === 'sectionAttack'){
     document.getElementById('divAcceptButton').style.display = 'none'
+    document.getElementById('resetGame').style.display = 'flex'
+
   }
   
 }
 
 function starCanvas(){
 
-  console.log('Vidas jugador = ', player.lifes, 'Victorias jugador = ', player.wins)
   document.getElementById('lifesPlaver').innerHTML = `❤️= ${player.lifes}`
   document.getElementById('winsPlayer').innerHTML = `🏆= ${player.wins}`
-  deleteCharacterArray(player.character.name)
   document.getElementById('sectionCanvas').style.display = 'flex';
   document.getElementById('selectCharacter').style.display = 'none';
+
+  deleteCharacterArray(player.character.name)
+
   moveCharacterListener = window.addEventListener('keydown', moveCharacter);
   stopCharacterListener = window.addEventListener('keyup', stopCharacter);
   player.character.canvas.x = 430
   player.character.canvas.y = 240
   inverval = setInterval(() => drawCanvas(player.character), 50)
+
 }
 
 function deleteCharacterArray(name){
@@ -244,10 +248,12 @@ function checkCollision(andimon){
       rightAndimon < leftPlayer){
     return
   }
+
   enemy.character = andimon
   moveCharacterListener = null;
   stopCharacterListener = null
-  inverval = null
+  clearInterval(inverval)
+
   stopCharacter()
   startRound()
 }
@@ -266,9 +272,11 @@ function startRound() {
   roundDiv.innerHTML = `Ronda: ${round}`
 
   generateAttackButtons(player.character);
+
 }
 
 function generateAttackButtons(character) {
+
   passTurnButton.addEventListener('click', passTurn);
   playerAttacksDiv.innerHTML = '' 
   
@@ -278,9 +286,8 @@ function generateAttackButtons(character) {
     attackButton.id = `buttonAttack_${i}`; 
     attackButton.classList.add('buttonsAttacks');
     playerAttacksDiv.appendChild(attackButton)
-    attackButton.addEventListener('click', () => enemyRandomAttack(ability));
-    
-});
+    attackButton.addEventListener('click', () => enemyRandomAttack(ability));    
+  });
 }
 
 function enemyRandomAttack(playerAttack) {
@@ -299,11 +306,12 @@ function chooseEnemyAttack(enemy) {
 }
 
 function findSkillByEmoji(skills, emoji){
-  for (const propertyIndex in skills) {
-    const skillObjectItem = skills[propertyIndex]; // Objeto dentro de la propiedad numérica
+
+  for (let i in skills) {
+    const skillObjectItem = skills[i]; 
     for (const skillProperty in skillObjectItem) {
       if (typeof skillObjectItem[skillProperty] === 'string' && skillObjectItem[skillProperty].includes(emoji)) {
-        return skills[propertyIndex]; // Concatena la propiedad numérica y la propiedad del objeto
+        return skills[i];
       }
     }
   }
@@ -347,8 +355,6 @@ function enableAttacks() {
 
   battle();
 }
-
-
 
 function battle(){
 
@@ -435,26 +441,16 @@ function getPlayerMessage(player, isLowStamina) {
 }
 
 function winner(){  
+
   deleteCharacterArray(enemy.character.name)
 
-  resetDiv.style.display = 'flex'
-
-  document.getElementById('cotinueButton').addEventListener('click', () => {
-    resetStats(attackButtons);
-  });
-  
   let paragraph = ''
   const attackButtons = playerAttacksDiv.getElementsByTagName('button');
-  
-  for (const button of attackButtons) {
-    button.disabled = true;
-  }
 
-  passTurnButton.disabled = true;
-  passTurnButton.style.color = '#9de5de';
-  for (let i = 0; i < playersStatistics.length; i++) {
-    playersStatistics[i].style.display = 'none'; 
-  }
+  disabledAttacksButtons(true, attackButtons)
+  disabledPassTurnButton(true)
+  showPlayersStatistics(false) 
+  resetDiv.style.display = 'flex' 
 
   if (player.health > enemy.health){
     paragraph = `🎊 Tu ${player.character.name} gano 🎉 🏆`
@@ -463,6 +459,48 @@ function winner(){
     paragraph = `⚰💀 Tu ${player.character.name} perdio ☠️🪦`
     player.lifes--
   }
+
+  document.getElementById('resultsParagraph').innerHTML = paragraph;
+
+  checkEndGame()
+  document.getElementById('cotinueButton').addEventListener('click', () => {
+    resetStats(attackButtons);
+  });
+}
+
+function disabledAttacksButtons(bolean, attackButtons){
+  for (const button of attackButtons) {
+    if (bolean){
+      button.disabled = true;
+
+    } else{
+      button.disabled = false;
+    }
+  } 
+}
+
+function disabledPassTurnButton(bolean){
+  if (bolean){
+    passTurnButton.disabled = true;
+    passTurnButton.style.color = '#9de5de';
+  } else{
+    passTurnButton.disabled = false;
+  passTurnButton.style.color = '#396365';
+  }
+
+}
+
+function showPlayersStatistics(bolean){
+  for (let i = 0; i < playersStatistics.length; i++) {
+    if (!bolean){
+      playersStatistics[i].style.display = 'none'; 
+    } else{
+    playersStatistics[i].style.display = 'flex'; 
+    }
+  } 
+}
+
+function checkEndGame(){
 
   if(player.lifes <= 2){
     const text = 'Has perdido el juego'
@@ -473,7 +511,7 @@ function winner(){
     const section = 'sectionAttack'
     showModal(text, section);
   }
-  document.getElementById('resultsParagraph').innerHTML = paragraph;
+
 }
 
 function resetStats(attackButtons){
@@ -489,27 +527,22 @@ function resetStats(attackButtons){
   player.disabledAttack = -1;
   round = 0
 
-  for (const button of attackButtons) {
-    button.disabled = false;
-  }
-  passTurnButton.disabled = false;
-  passTurnButton.style.color = '#396365';
-  document.getElementById('sectionAttack').style.display = 'none';
-  for (let i = 0; i < playersStatistics.length; i++) {
-    playersStatistics[i].style.display = 'flex'; 
-  }
+  disabledAttacksButtons(false, attackButtons)
+  disabledPassTurnButton(false)
+  showPlayersStatistics(false)
   resetDiv.style.display = 'none'
-
+  document.getElementById('sectionAttack').style.display = 'none';
+   
   starCanvas()
-
 }
-resetButtonModal
-document.getElementById('resetButton').addEventListener('click', () => {
-  location.reload();
+
+const resetButtons = document.querySelectorAll('#resetButton, #resetButtonModal');
+resetButtons.forEach(button => {
+  button.addEventListener('click', () => {
+    location.reload();
+  });
 });
-document.getElementById('resetButtonModal').addEventListener('click', () => {
-  location.reload();
-});
+
 window.moveCharacter = moveCharacter;
 window.stopCharacter = stopCharacter;
              
